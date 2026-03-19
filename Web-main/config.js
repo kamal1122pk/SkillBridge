@@ -1,4 +1,4 @@
 // config.js - Centralized configuration for the application
 window.CONFIG = {
-    API_BASE_URL: "http://localhost:8000"
+    API_BASE_URL: "https://skill-bridge-theta-nine.vercel.app"
 };
