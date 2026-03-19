@@ -412,13 +412,26 @@ class ConversationViewSet(viewsets.ModelViewSet):
             return Response({"error": "participant_emails required"}, status=status.HTTP_400_BAD_REQUEST)
         
         profiles = []
-        for email in participant_emails:
-            profile = Profile.objects.filter(user__email=email).first()
+        from django.contrib.auth.models import User as DjangoUser
+        from django.db.models import Q
+        
+        for identifier in participant_emails:
+            # Look for a profile where the user has the given email or username
+            profile = Profile.objects.filter(Q(user__email=identifier) | Q(user__username=identifier)).first()
+            
             if not profile:
-                # Create a placeholder user and profile if it's a demo email
-                from django.contrib.auth.models import User as DjangoUser
-                user, created = DjangoUser.objects.get_or_create(username=email, email=email)
-                profile = Profile.objects.create(user=user, name=email.split('@')[0], role='freelancer')
+                # Still not found, so look for a user directly to avoid duplicates
+                user = DjangoUser.objects.filter(Q(email=identifier) | Q(username=identifier)).first()
+                if not user:
+                    # Only create if NO user exists with this username or email
+                    user = DjangoUser.objects.create_user(username=identifier, email=identifier if "@" in identifier else "")
+                
+                # Check if this user had a profile created elsewhere but not linked?
+                # Usually we just create it now
+                profile, _ = Profile.objects.get_or_create(user=user, defaults={
+                    'name': identifier.split('@')[0], 
+                    'role': 'freelancer'
+                })
             profiles.append(profile)
         
         # Check if conversation already exists between EXACTLY these participants
