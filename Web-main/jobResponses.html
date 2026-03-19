@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Job Responses</title>
+<script src="config.js"></script>
+<link rel="stylesheet" href="notifications.css">
+<script src="notifications.js"></script>
+<style>
+body { 
+    background:#0f172a; 
+    color:white; 
+    font-family:Arial; 
+    padding:20px; 
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #38bdf8 #020617;
+}
+
+/* CUSTOM SCROLLBAR (Webkit) */
+::-webkit-scrollbar {
+    width: 7px;
+}
+::-webkit-scrollbar-track {
+    background: #020617;
+}
+::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 10px;
+    border: 1px solid #020617;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #38bdf8;
+}
+.response-card {
+  background:#1e293b; padding:15px; margin-bottom:15px;
+  border-radius:10px; border:1px solid rgba(56,189,248,0.3);
+}
+.response-card img { width:40px; height:40px; border-radius:50%; margin-right:10px; }
+.response-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.message-btn {
+  background:#38bdf8; border:none; padding:6px 12px;
+  border-radius:6px; cursor:pointer; font-size:13px; margin-top:10px;
+}
+</style>
+</head>
+<body>
+<h2>Job Responses</h2>
+<div id="responsesContainer"></div>
+
+
+<script>
+const jobId = localStorage.getItem("selectedJobId");
+const token = localStorage.getItem("access_token");
+const container = document.getElementById("responsesContainer");
+
+async function loadResponses() {
+    if (!jobId || !token) {
+        container.innerHTML = "<p>Please select a job first.</p>";
+        return;
+    }
+    
+    container.innerHTML = "<p>Loading responses...</p>";
+    
+    try {
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/applications/?job=${jobId}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const allResponses = await response.json();
+
+        container.innerHTML = "";
+        if(allResponses.length === 0){
+          container.innerHTML = "<p>No responses yet</p>";
+        } else {
+          allResponses.forEach(r => {
+            const div = document.createElement("div");
+            div.className = "response-card";
+            div.innerHTML = `
+              <div class="response-header">
+                <strong>${r.freelancer_name}</strong>
+              </div>
+              <p>${r.cover_letter}</p>
+              <button class="message-btn" onclick="messageFreelancer('${r.freelancer_email}', '${r.freelancer_name}')">Message</button>
+            `;
+            container.appendChild(div);
+          });
+        }
+    } catch (err) {
+        console.error(err);
+        container.innerHTML = "<p>Error loading responses.</p>";
+    }
+}
+
+function messageFreelancer(email, name) {
+    if (!email || email === "undefined") {
+        showToast("Cannot initiate chat: Email missing.", "error");
+        return;
+    }
+    localStorage.setItem("activeChatUser", JSON.stringify({
+        name: name,
+        email: email,
+        avatar: "https://i.pravatar.cc/150"
+    }));
+    window.location.href = "chat.html";
+}
+
+
+loadResponses();
+</script>
+</body>
+</html>

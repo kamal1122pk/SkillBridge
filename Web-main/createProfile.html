@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>SkillBridge - Create Profile</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <script src="config.js"></script>
+  <link rel="stylesheet" href="notifications.css">
+  <script src="notifications.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* profile.css */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      /* Firefox */
+      scrollbar-width: thin;
+      scrollbar-color: #38bdf8 #020617;
+    }
+
+    /* CUSTOM SCROLLBAR (Webkit) */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020617;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 10px;
+      border: 1px solid #020617;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #38bdf8;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #020617, #0f172a, #020617);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 4rem;
+      text-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      color: #cbd5f5;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 3px solid #38bdf8;
+      border-radius: 18px;
+      padding: 35px;
+      width: 500px;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+      position: relative;
+    }
+
+    .step {
+      text-align: center;
+    }
+
+    .step h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.1rem;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: white;
+      color: black;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.1rem;
+      background: #38bdf8;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background: #0ea5e9;
+    }
+
+    .back {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 1.5rem;
+      color: #38bdf8;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .card {
+        width: 90%;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Create Profile</h1>
+    <p class="subtitle">Build your professional profile step by step</p>
+
+    <div class="card">
+      <!-- Step 1: Name -->
+      <div id="step1" class="step">
+        <h2>Enter Your Name</h2>
+        <input type="text" id="name" placeholder="Your full name">
+        <button type="button" onclick="nextStep(1)">Next</button>
+      </div>
+
+      <!-- Step 2: Profile Picture -->
+      <div id="step2" class="step hidden">
+        <h2>Upload Profile Picture</h2>
+        <input type="file" id="profilePic" accept="image/*">
+        <button type="button" onclick="nextStep(2)">Next</button>
+        <div class="back" onclick="prevStep(2)">←</div>
+      </div>
+
+      <!-- Step 3: Headline -->
+      <div id="step3" class="step hidden">
+        <h2>Enter Headline</h2>
+        <input type="text" id="headline" placeholder="e.g., Professional Photographer">
+        <button type="button" onclick="nextStep(3)">Next</button>
+        <div class="back" onclick="prevStep(3)">←</div>
+      </div>
+
+      <!-- Step 4: Department -->
+      <div id="step4" class="step hidden">
+        <h2>Department</h2>
+        <select id="department">
+          <option value="">Select Your Department</option>
+          <option value="Software Engineering">Software Engineering</option>
+          <option value="Chemical Engineering">Chemical Engineering</option>
+          <option value="Computer System Engineering">Computer System Engineering</option>
+          <option value="Computer Science">Computer Science</option>
+          <option value="Mechanical Engineering">Mechanical Engineering</option>
+          <option value="Industrial Engineering">Industrial Engineering</option>
+          <option value="Information Technology">Information Technology (IT)</option>
+          <option value="Artificial Intelligence">Artificial Intelligence</option>
+          <option value="Petroleum Engineering">Petroleum Engineering</option>
+          <option value="Mechatronics Engineering">Mechatronics Engineering</option>
+          <option value="Electrical Engineering">Electrical Engineering</option>
+          <option value="Civil Engineering">Civil Engineering</option>
+          <option value="English">Centre of English Language and Linguistic</option>
+          <option value="Mathematics">Mathematics</option>
+        </select>
+        <button type="button" onclick="nextStep(4)">Next</button>
+        <div class="back" onclick="prevStep(4)">←</div>
+      </div>
+
+      <!-- Step 5: Skills -->
+      <div id="step5" class="step hidden">
+        <h2>Skills</h2>
+        <input type="text" id="skills" placeholder="e.g., Photography, Editing, Photoshop">
+        <button type="button" onclick="nextStep(5)">Next</button>
+        <div class="back" onclick="prevStep(5)">←</div>
+      </div>
+
+      <!-- Step 6: Experience -->
+      <div id="step6" class="step hidden">
+        <h2>Experience</h2>
+        <textarea id="experience" placeholder="Describe your previous work or experience..."></textarea>
+        <button type="button" onclick="nextStep(6)">Next</button>
+        <div class="back" onclick="prevStep(6)">←</div>
+      </div>
+
+      <!-- Step 7: Best Work Images -->
+      <div id="step7" class="step hidden">
+        <h2>Upload Best Work (Up to 2 Images)</h2>
+        <input type="file" id="bestWorkImages" accept="image/*" multiple>
+        <button type="button" onclick="nextStep(7)">Next</button>
+        <div class="back" onclick="prevStep(7)">←</div>
+      </div>
+      <!-- Step 8: Portfolio Video -->
+      <div id="step8" class="step hidden">
+        <h2>Upload Portfolio Video</h2>
+        <input type="file" id="videoFile" accept="video/mp4,video/webm,video/ogg">
+        <button type="button" onclick="nextStep(8)">Next</button>
+        <div class="back" onclick="prevStep(8)">←</div>
+      </div>
+
+      <!-- Step 9: Expected Stipend -->
+      <div id="step9" class="step hidden">
+        <h2>Expected Stipend</h2>
+        <input type="text" id="stipend" placeholder="Expected Stipend (Rs)">
+        <button type="button" onclick="nextStep(9)">Next</button>
+        <div class="back" onclick="prevStep(9)">←</div>
+      </div>
+
+      <!-- Step 10: Bank Account Number -->
+      <div id="step10" class="step hidden">
+        <h2>EasyPaisa Number</h2>
+        <input type="number" id="bankAccount" placeholder="Your bank account number">
+        <h2>Account Name</h2>
+        <input type="text" id="accountName" placeholder="Your account name">
+        <button type="button" onclick="createProfile()">Create Profile</button>
+        <div class="back" onclick="prevStep(10)">←</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="createProfile.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Django
+db.sqlite3
+staticfiles/
+media/
+*.log
+
+# Deployment
+render-build.sh # Keep this
+render.yaml # Keep this
+
+# Frontend
+node_modules/
+.DS_Store
+Thumbs.db
