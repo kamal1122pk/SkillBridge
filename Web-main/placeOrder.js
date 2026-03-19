@@ -64,6 +64,7 @@ async function confirmOrder() {
 
     // Show success island with order ID
     document.getElementById("orderIdDisplay").innerText = createdOrderId;
+    document.getElementById("successIsland").classList.add("visible");
   } catch (err) {
     console.error(err);
     showToast(err.detail || "Failed to place order.", "error");

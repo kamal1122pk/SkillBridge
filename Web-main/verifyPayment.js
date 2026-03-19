@@ -143,7 +143,7 @@ async function submitPayment() {
 
         // Save success state before showing island (in case of immediate reload)
         sessionStorage.setItem("submitted_" + ORDER_ID, "true");
-        // document.getElementById("successIsland").classList.add("visible");
+        document.getElementById("successIsland").classList.add("visible");
 
     } catch (err) {
         console.error(err);
