@@ -157,12 +157,11 @@ STORAGES = {
     },
 }
 
-# Add this line below STATIC_ROOT
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 WHITENOISE_USE_FINDERS = True
 WHITENOISE_MANIFEST_STRICT = False
 
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # Default primary key field type

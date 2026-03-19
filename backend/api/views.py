@@ -540,8 +540,12 @@ class SendOTPView(APIView):
         subject = "Your SkillBridge Verification Code"
         message = f"Your verification code is: {code}\n\nThis code will be used to verify your university email."
         
-        # Trigger Background Email
-        EmailThread(subject, message, [email]).start()
+        try:
+            from django.core.mail import send_mail
+            from django.conf import settings
+            send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+        except Exception as e:
+            return Response({"error": f"Failed to send email: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         return Response({"message": "OTP sent successfully!"})
 
