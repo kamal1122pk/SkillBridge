@@ -123,7 +123,7 @@ async function createProfile() {
 
   try {
     // Use PATCH because registration already created the profile object
-    const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/profiles/${userEmail}/`, {
+    const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/profiles/me/`, {
       method: "PATCH",
       headers: {
         "Authorization": "Bearer " + token,
