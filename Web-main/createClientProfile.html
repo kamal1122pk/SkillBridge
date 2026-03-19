@@ -189,7 +189,7 @@
       }
 
       try {
-        const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/profiles/${userEmail}/`, {
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/profiles/me/`, {
           method: "PATCH",
           headers: {
             "Authorization": "Bearer " + token
