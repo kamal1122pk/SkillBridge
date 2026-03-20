@@ -207,7 +207,7 @@ workModal.onclick = (e)=> { if(e.target === workModal) workModal.style.display =
 function goHome() { window.location.href = "index.html"; }
 function viewFreelancerProfile(email) { window.location.href = `profile-view.html?email=${email}`; }
 function goDashboard() { window.location.href = "clientDashboard.html"; }
-function goProfile() { window.location.href = "clientProfile.html"; }
+function goProfile() { window.location.href = "clientProfileView.html"; }
 function goMessage() { window.location.href = "chat.html"; }
 
 async function loadUserProfile() {

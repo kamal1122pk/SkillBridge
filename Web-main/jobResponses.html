@@ -66,10 +66,11 @@ async function loadResponses() {
         const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/applications/?job=${jobId}`, {
             headers: { "Authorization": `Bearer ${token}` }
         });
-        const allResponses = await response.json();
+        const data = await response.json();
+        const allResponses = data.results || data;
 
         container.innerHTML = "";
-        if(allResponses.length === 0){
+        if(!Array.isArray(allResponses) || allResponses.length === 0){
           container.innerHTML = "<p>No responses yet</p>";
         } else {
           allResponses.forEach(r => {

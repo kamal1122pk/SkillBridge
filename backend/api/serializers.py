@@ -20,7 +20,14 @@ class ProfileSerializer(serializers.ModelSerializer):
     unread_messages_count = serializers.SerializerMethodField()
     avg_rating = serializers.SerializerMethodField()
     completion_rate = serializers.SerializerMethodField()
+    is_me = serializers.SerializerMethodField()
     total_earnings = serializers.SerializerMethodField()
+
+    def get_is_me(self, obj):
+        request = self.context.get('request')
+        if request and hasattr(request.user, 'profile'):
+            return request.user.profile.id == obj.id
+        return False
 
     def get_unread_messages_count(self, obj):
         return Message.objects.filter(conversation__participants=obj, read=False).exclude(sender=obj).count()
@@ -55,7 +62,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             'headline', 'department', 'skills', 'experience', 
             'stipend', 'bank_account', 'account_name', 'company_name', 'project_type', 'budget_range',
             'portfolio_media', 'saved_freelancers', 'unread_messages_count',
-            'is_verified', 'avg_rating', 'completion_rate', 'reviews_count', 'reputation_points', 'total_earnings', 'is_completed', 'is_banned'
+            'is_verified', 'is_me', 'avg_rating', 'completion_rate', 'reviews_count', 'reputation_points', 'total_earnings', 'is_completed', 'is_banned'
         ]
 
 
@@ -143,6 +150,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom fields for frontend
         profile = getattr(self.user, 'profile', None)
         data['is_staff'] = self.user.is_staff
+        data['email'] = self.user.email
         if profile:
             data['role'] = profile.role
             data['name'] = profile.name
@@ -279,10 +287,17 @@ class ReviewSerializer(serializers.ModelSerializer):
 class MessageSerializer(serializers.ModelSerializer):
     sender_name = serializers.CharField(source='sender.name', read_only=True)
     sender_email = serializers.EmailField(source='sender.user.email', read_only=True)
+    is_me = serializers.SerializerMethodField()
+    
+    def get_is_me(self, obj):
+        request = self.context.get('request')
+        if request and hasattr(request.user, 'profile'):
+            return request.user.profile.id == obj.sender_id
+        return False
     
     class Meta:
         model = Message
-        fields = ['id', 'conversation', 'sender', 'sender_email', 'sender_name', 'text', 'timestamp', 'read']
+        fields = ['id', 'conversation', 'sender', 'sender_email', 'sender_name', 'text', 'timestamp', 'read', 'is_me']
         extra_kwargs = {
             'sender': {'read_only': True}
         }

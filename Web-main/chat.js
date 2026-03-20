@@ -34,7 +34,8 @@ async function loadConversations() {
     if (activeChatUser) {
       const existing = convos.find(c => {
         if (activeChatUser.email) {
-          return c.participants.some(p => p.user_email === activeChatUser.email);
+          const targetEmail = activeChatUser.email.toLowerCase();
+          return c.participants.some(p => (p.user_email || "").toLowerCase() === targetEmail);
         } else if (activeChatUser.name) {
           return c.name === activeChatUser.name;
         }
@@ -53,8 +54,8 @@ async function loadConversations() {
         convos.unshift({
           id: null, // Indicates virtual
           participants: [
-            { user_email: loggedInUserEmail, name: "Me" },
-            { user_email: activeChatUser.email, name: activeChatUser.name, profile_pic: activeChatUser.avatar }
+            { user_email: loggedInUserEmail, name: "Me", is_me: true },
+            { user_email: activeChatUser.email, name: activeChatUser.name, profile_pic: activeChatUser.avatar, is_me: false }
           ],
           messages: []
         });
@@ -95,19 +96,21 @@ function renderConversations(convos) {
   }
 
   convos.forEach(convo => {
-    const other = convo.participants.find(p => p.user_email !== loggedInUserEmail);
-    if (!other) return;
+    // Identify the other participant using the is_me flag from the API
+    const other = convo.participants.find(p => !p.is_me);
+    const displayUser = other || convo.participants[0];
+    if (!displayUser) return;
 
     const div = document.createElement("div");
     div.className = "conversation";
     if (activeConversationId === convo.id && (convo.id !== null || activeChatUser)) div.classList.add("active");
 
     const img = document.createElement("img");
-    img.src = convo.name ? "https://res.cloudinary.com/dwhdzsexh/image/upload/v1/media/profiles/group-chat-icon.png" : (other.profile_pic || "https://i.pravatar.cc/150");
+    img.src = convo.name ? "https://res.cloudinary.com/dwhdzsexh/image/upload/v1/media/profiles/group-chat-icon.png" : (displayUser.profile_pic || "https://i.pravatar.cc/150");
     img.onerror = function() { this.src = 'https://i.pravatar.cc/150'; };
 
     const span = document.createElement("span");
-    span.innerText = (convo.name && convo.name.trim()) ? convo.name : other.name;
+    span.innerText = (convo.name && convo.name.trim()) ? convo.name : displayUser.name;
     if (convo.id === null) span.innerText += " (New)";
 
     div.appendChild(img);
@@ -123,9 +126,9 @@ function renderConversations(convos) {
         };
       } else {
         activeChatUser = {
-          name: other.name,
-          avatar: other.profile_pic || "https://i.pravatar.cc/150",
-          email: other.user_email
+          name: displayUser.name,
+          avatar: displayUser.profile_pic || "https://i.pravatar.cc/150",
+          email: displayUser.user_email
         };
       }
       localStorage.setItem("activeChatUser", JSON.stringify(activeChatUser));
@@ -223,7 +226,7 @@ function renderChat(messages) {
     renderedMessageIds.add(m.id);
     hasNew = true;
 
-    const isMe = m.sender_email === loggedInUserEmail;
+    const isMe = m.is_me;
     const senderClass = isMe ? 'me' : 'other';
 
     const div = document.createElement("div");
@@ -334,7 +337,7 @@ document.addEventListener("DOMContentLoaded", function () {
       navLinks.innerHTML = `
         <a href="clientDashboard.html">Dashboard</a>
         <a href="browseTalent.html">Browse Talent</a>
-        <a href="profile-view.html">Profile</a>
+        <a href="clientProfileView.html">Profile</a>
       `;
     }
   }

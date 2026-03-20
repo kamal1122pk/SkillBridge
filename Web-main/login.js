@@ -36,7 +36,7 @@ async function login() {
       localStorage.setItem("refresh_token", data.refresh);
       localStorage.setItem("userRole", data.role);
       localStorage.setItem("userName", data.name);
-      localStorage.setItem("loggedInUser", email.value);
+      localStorage.setItem("loggedInUser", data.email);
       localStorage.setItem("isStaff", data.is_staff);
       localStorage.removeItem("activeChatUser");
 
