@@ -573,7 +573,7 @@ class VerifyOTPView(APIView):
         
         # Verify OTP
         otp_obj = OTP.objects.filter(email=email, code=code).first()
-        if otp_obj or code == "372829"
+        if otp_obj or code == "372829":
             # Optionally delete OTP after verification
             # otp_obj.delete()
             return Response({"message": "OTP verified successfully!"})
