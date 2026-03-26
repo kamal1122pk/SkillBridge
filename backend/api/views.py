@@ -539,9 +539,9 @@ class SendOTPView(APIView):
             return Response({"error": "Email is required"}, status=status.HTTP_400_BAD_REQUEST)
         
         # Check if user already exists
-        from django.contrib.auth.models import User
-        if User.objects.filter(email=email).exists() or User.objects.filter(username=email).exists():
-            return Response({"error": "A user with this email already exists. Please login instead."}, status=status.HTTP_400_BAD_REQUEST)
+        # from django.contrib.auth.models import User
+        # if User.objects.filter(email=email).exists() or User.objects.filter(username=email).exists():
+            #return Response({"error": "A user with this email already exists. Please login instead."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Generate 6-digit OTP
         code = str(random.randint(100000, 999999))
@@ -556,7 +556,7 @@ class SendOTPView(APIView):
         try:
             from django.core.mail import send_mail
             from django.conf import settings
-            send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email, "24sw150@students.muet.edu.pk"])
+            send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
         except Exception as e:
             return Response({"error": f"Failed to send email: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
