@@ -525,8 +525,8 @@ class CheckEmailView(APIView):
         from django.contrib.auth.models import User
         exists = User.objects.filter(email=email).exists() or User.objects.filter(username=email).exists()
         
-        if exists:
-            return Response({"error": "A user with this email already exists. Please login instead."}, status=status.HTTP_400_BAD_REQUEST)
+        #if exists:
+            #return Response({"error": "A user with this email already exists. Please login instead."}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response({"message": "Email is available."})
 
