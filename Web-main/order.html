@@ -214,6 +214,101 @@ color:black;
   border-radius:8px; font-size:14px; margin-bottom:12px;
 }
 .submit-box textarea { height:90px; resize:none; }
+/* =========================
+   📱 MOBILE (max 600px)
+========================= */
+@media (max-width: 600px) {
+
+  /* NAVBAR */
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 15px 20px;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .nav-links li {
+    font-size: 1rem;
+  }
+
+  /* PAGE */
+  .container {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  /* ORDERS */
+  .orders-container {
+    max-width: 100%;
+  }
+
+  .order-card {
+    padding: 15px;
+  }
+
+  .order-title {
+    font-size: 1rem;
+  }
+
+  .order-info {
+    font-size: 0.9rem;
+  }
+
+  .status {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+  }
+
+  /* LOAD MORE BUTTON */
+  #loadMoreBtn {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  /* REVIEW MODAL */
+  .review-box {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .star-rating {
+    font-size: 24px;
+  }
+
+  textarea {
+    font-size: 0.9rem;
+  }
+
+  /* SUBMIT WORK MODAL */
+  .submit-box {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .submit-box textarea,
+  .submit-box input {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  /* BUTTONS INSIDE MODALS */
+  .review-box button,
+  .submit-box button {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
 </style>
 </head>
 

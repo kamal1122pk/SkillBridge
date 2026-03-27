@@ -190,6 +190,80 @@
     }
 
     .btn-secondary:hover { background: rgba(56,189,248,0.1); }
+    /* =========================
+   📱 MOBILE (max 600px)
+========================= */
+@media (max-width: 600px) {
+
+  /* BODY FIX (important) */
+  body {
+    align-items: flex-start; /* don't vertically center */
+    padding: 20px 0;
+  }
+
+  /* CARD */
+  .card {
+    width: 95%;
+    margin: 20px auto;
+    padding: 22px 18px;
+    border-radius: 14px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  /* FORM */
+  label {
+    font-size: 0.9rem;
+  }
+
+  input,
+  textarea {
+    font-size: 0.95rem;
+    padding: 11px;
+  }
+
+  textarea {
+    height: 120px;
+  }
+
+  /* BUTTON */
+  .submit-btn {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  /* SUCCESS MODAL */
+  .island-box {
+    width: 92%;
+    padding: 25px 20px;
+    border-radius: 18px;
+  }
+
+  .island-icon {
+    font-size: 40px;
+  }
+
+  .island-title {
+    font-size: 1.3rem;
+  }
+
+  .island-sub {
+    font-size: 0.9rem;
+  }
+
+  .island-order-id {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+}
   </style>
 </head>
 

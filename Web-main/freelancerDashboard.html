@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <script src="config.js"></script>
   <link rel="stylesheet" href="notifications.css">
@@ -19,7 +20,9 @@
       scrollbar-width: thin;
       scrollbar-color: #38bdf8 #020617;
     }
-
+:root {
+  --navbar-height: 70px;
+}
     /* CUSTOM SCROLLBAR (Webkit) */
     ::-webkit-scrollbar {
       width: 7px;
@@ -43,7 +46,10 @@
 
     /* NAVBAR */
     .navbar {
-      height: 70px;
+      /* height: 70px; */
+      
+  height: var(--navbar-height);
+
       background: #020617;
       border-bottom: 1px solid rgba(56, 189, 248, 0.3);
 
@@ -84,7 +90,8 @@
 
     /* MAIN CONTENT */
     .dashboard-container {
-      padding: 40px;
+      /* padding: 40px; */
+       padding-top: calc(var(--navbar-height) + 20px);
     }
 
     .dashboard-title {
@@ -185,6 +192,137 @@
       background: #ef4444;
       color: white;
     }
+    /* =========================
+   📱 MOBILE (max 600px)
+========================= */
+@media (max-width: 600px) {
+
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 15px 20px;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .nav-links li {
+    font-size: 1rem;
+  }
+
+  .dashboard-container {
+    padding: 20px;
+  }
+
+  .dashboard-title {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+  }
+
+  .dashboard-card {
+    padding: 20px;
+    min-height: 200px;
+  }
+
+  .dashboard-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .dashboard-card p {
+    font-size: 1.5rem;
+  }
+
+  p.subHeading {
+    font-size: 1rem;
+  }
+
+  .verification-title {
+    font-size: 1.3rem;
+  }
+
+  .verify-buttons button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+
+/* =========================
+   📱 TABLET (601px - 992px)
+========================= */
+@media (min-width: 601px) and (max-width: 992px) {
+
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .nav-links {
+    gap: 20px;
+  }
+
+  .dashboard-container {
+    padding: 30px;
+  }
+
+  .dashboard-title {
+    font-size: 1.8rem;
+    margin-bottom: 60px;
+  }
+
+  .dashboard-card {
+    padding: 25px;
+  }
+
+  .dashboard-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .dashboard-card p {
+    font-size: 1.8rem;
+  }
+}
+
+
+/* =========================
+   💻 LARGE SCREENS (1200px+)
+========================= */
+@media (min-width: 1200px) {
+
+  .dashboard-container {
+    padding: 60px 100px;
+  }
+
+  .dashboard-title {
+    font-size: 2.5rem;
+  }
+
+  .dashboard-cards {
+    gap: 30px;
+  }
+
+  .dashboard-card {
+    padding: 40px;
+    min-height: 320px;
+  }
+
+  .dashboard-card h3 {
+    font-size: 1.6rem;
+  }
+
+  .dashboard-card p {
+    font-size: 2.5rem;
+  }
+
+  p.subHeading {
+    font-size: 1.3rem;
+  }
+}
+
   </style>
     <link rel="stylesheet" href="successIsland.css">
     <script src="successIsland.js"></script>
@@ -227,7 +365,7 @@
         <div>
           <h3>Ongoing Projects <i class="fa-solid fa-hand-holding-hand fa-xs" style="color: rgb(116, 192, 252);"></i>
           </h3>
-          <p class="subHeading">There are no ongoing projects</p>
+          <!-- <p class="subHeading">Go to projects to see Ongoing Projects</p> -->
           <p id="ongoingProjects">0</p>
         </div>
       </div>
@@ -235,7 +373,7 @@
       <div class="dashboard-card">
         <div>
           <h3>Pending Requests <i class="fa-regular fa-bell fa-xs" style="color: rgb(116, 192, 252);"></i></h3>
-          <p class="subHeading">There are no pending requests</p>
+          <!-- <p class="subHeading">There are no pending requests</p> -->
           <p id="pendingProjects">0</p>
         </div>
       </div>
@@ -243,7 +381,7 @@
       <div class="dashboard-card">
         <div>
           <h3>Total Earnings <i class="fa-solid fa-coins fa-xs" style="color: rgb(116, 192, 252);"></i></h3>
-          <p class="subHeading">Start your first project to earn</p>
+          <!-- <p class="subHeading">Start your first project to earn</p> -->
           <p id="totalEarnings">Rs 0</p>
         </div>
       </div>
@@ -251,7 +389,7 @@
       <div class="dashboard-card">
         <div>
           <h3>Unread Messages <i class="fa-regular fa-message fa-xs" style="color: rgb(116, 192, 252);"></i></h3>
-          <p class="subHeading">There are no unread messages</p>
+          <!-- <p class="subHeading">There are no unread messages</p> -->
           <p id="unreadMessages">0</p>
         </div>
       </div>

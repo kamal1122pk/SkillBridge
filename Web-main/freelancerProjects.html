@@ -217,6 +217,96 @@
       height: 90px;
       resize: none;
     }
+    /* =========================
+   📱 MOBILE (max 600px)
+========================= */
+@media (max-width: 600px) {
+
+  /* NAVBAR */
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 15px 20px;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .user-name {
+    font-size: 1rem;
+    margin-top: 5px;
+  }
+
+  /* PAGE */
+  .container {
+    padding: 20px;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  /* GRID FIX */
+  .projects-grid {
+    grid-template-columns: 1fr; /* one card per row */
+    gap: 15px;
+  }
+
+  /* CARD */
+  .project-card {
+    padding: 18px;
+  }
+
+  .project-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .project-info {
+    font-size: 0.9rem;
+  }
+
+  .status {
+    font-size: 0.9rem;
+  }
+
+  /* BUTTON */
+  .complete-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  /* LOAD MORE */
+  #loadMoreBtn {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  /* MODAL */
+  .submit-box {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .submit-box textarea,
+  .submit-box input {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .submit-box button {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
   </style>
 </head>
 
@@ -265,7 +355,7 @@
   <!-- SUBMIT WORK MODAL -->
   <div class="submit-modal" id="submitWorkModal">
     <div class="submit-box">
-      <h3>📦 Submit Your Work</h3>
+      <h3>Submit Your Work</h3>
       <label>Description</label>
       <textarea id="submitText" placeholder="Describe what you delivered..."></textarea>
       <label>Link (Google Drive, GitHub, Figma, etc.)</label>

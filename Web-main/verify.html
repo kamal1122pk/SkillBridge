@@ -112,6 +112,54 @@
             width: 100%;
             box-sizing: border-box;
         }
+        /* =========================
+   📱 MOBILE (max 600px)
+========================= */
+@media (max-width: 600px) {
+
+  /* BODY FIX */
+  body {
+    height: auto;
+    min-height: 100vh;
+    overflow: auto; /* allow scroll */
+    align-items: flex-start; /* no vertical squeeze */
+    padding: 30px 15px;
+  }
+
+  /* CARD */
+  .verify-card {
+    padding: 25px 20px;
+    border-radius: 16px;
+  }
+
+  /* ICON */
+  .icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+  }
+
+  /* TEXT */
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+  }
+
+  /* BUTTON */
+  .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  /* SPINNER */
+  .loading-spinner {
+    width: 30px;
+    height: 30px;
+  }
+}
     </style>
 </head>
 <body>

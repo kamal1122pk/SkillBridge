@@ -326,6 +326,108 @@
       50% { border-color: rgba(56, 189, 248, 0.6); box-shadow: 0 8px 32px rgba(56, 189, 248, 0.1); }
       100% { border-color: rgba(56, 189, 248, 0.3); }
     }
+    /* =========================
+   📱 MOBILE (max 768px)
+========================= */
+@media (max-width: 768px) {
+
+  /* NAVBAR */
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 15px 20px;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  /* PROFILE HEADER */
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding: 30px 20px;
+  }
+
+  .profile-pic {
+    width: 120px;
+    height: 120px;
+  }
+
+  .profile-info h2 {
+    font-size: 1.6rem;
+  }
+
+  .profile-info p {
+    font-size: 1rem;
+  }
+
+  /* ACTION BUTTONS */
+  .header-actions {
+    margin-left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .header-actions .btn {
+    width: 100%;
+  }
+
+  /* CONTAINER */
+  .container {
+    padding: 20px;
+  }
+
+  .section h3 {
+    font-size: 1.2rem;
+  }
+
+  .section p {
+    font-size: 0.95rem;
+  }
+
+  /* SKILLS */
+  .skills {
+    gap: 8px;
+  }
+
+  .skill-tag {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  /* PORTFOLIO */
+  .portfolio-grid {
+    grid-template-columns: 1fr; /* one item per row */
+    gap: 15px;
+  }
+
+  .work-card img,
+  .work-card video {
+    height: 180px;
+  }
+
+  /* ALERT */
+  .incomplete-alert-container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 15px;
+  }
+
+  .complete-now-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
   </style>
     <link rel="stylesheet" href="successIsland.css">
     <script src="successIsland.js"></script>

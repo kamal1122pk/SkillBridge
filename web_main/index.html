@@ -10,9 +10,6 @@
 <link rel="stylesheet" href="notifications.css">
 <script src="notifications.js"></script>
 <style>
-/* ===============================
-   GLOBAL RESET
-================================ */
 *{
   margin:0;
   padding:0;
@@ -20,36 +17,13 @@
   font-family:'Poppins',sans-serif;
 }
 
-html{
-  scroll-behavior:smooth;
-}
-
 body{
   min-height:100vh;
   background:linear-gradient(135deg,#020617,#0f172a,#020617);
   color:white;
-
-  /* Scroll snapping (modern UX) */
-  scroll-snap-type:y mandatory;
-  overflow-y:scroll;
 }
 
-/* ===============================
-   FULL SCREEN SECTIONS
-================================ */
-section{
-  min-height:100svh; /* better than 100vh for mobile */
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  scroll-snap-align:start;
-  padding:80px 20px;
-}
-
-/* ===============================
-   NAVBAR
-================================ */
+/* NAVBAR */
 .navbar{
   position:fixed;
   top:0;
@@ -85,12 +59,11 @@ section{
   opacity:0.85;
 }
 
-/* ===============================
-   HERO
-================================ */
+/* HERO SECTION */
 .hero{
   text-align:center;
-  padding-top:120px;
+  padding:160px 20px 100px;
+  margin-top: 80px;
 }
 
 .hero h1{
@@ -113,9 +86,6 @@ section{
   flex-wrap:wrap;
 }
 
-/* ===============================
-   CARDS
-================================ */
 .card{
   background:rgba(255,255,255,0.08);
   border:2px solid #38bdf8;
@@ -148,11 +118,11 @@ section{
   color:black;
 }
 
-/* ===============================
-   HOW SECTION
-================================ */
+/* HOW SECTION */
 .how-section{
   text-align:center;
+  padding:100px 10%;
+  margin-top: 150px;
 }
 
 .how-section h2{
@@ -168,7 +138,7 @@ section{
 
 .subtitle{
   color:#94a3b8;
-  margin-bottom:40px;
+  margin-bottom:50px;
 }
 
 .work-cards{
@@ -180,19 +150,33 @@ section{
 
 .work-card{
   background:#0f172a;
-  border:1px solid #38bdf8;
-  padding:35px;
+  border:1px solid #1e293b;
+  padding:40px;
   border-radius:20px;
   width:280px;
   transition:0.3s;
+  border-color:#38bdf8;
+   animation: popUp 0.7s ease-out;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
 }
+@keyframes popUp {
+  from {
+    opacity: 0;
+    transform: translateY(80px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 
 .work-card:hover{
-  transform:translateY(-5px);
+  transform:translateY(-5px); 
 }
-
 .work-card p{
-  color:#acb1b7;
+  color: #acb1b7;
 }
 
 .icon{
@@ -200,11 +184,16 @@ section{
   margin-bottom:15px;
 }
 
-/* ===============================
-   TESTIMONIAL
-================================ */
+/* .blue{color:#38bdf8;}
+.purple{color:#8b5cf6;}
+.orange{color:#f97316;} */
+
+/* TESTIMONIAL */
 .testimonial-section{
+  padding:100px 10%;
   text-align:center;
+  margin-top: 100px;
+  margin-bottom: 150px;
 }
 
 .testimonial-section h2 span{
@@ -215,15 +204,26 @@ section{
 
 .testimonial-container{
   background:#0f172a;
-  padding:50px;
+  padding:60px;
   border-radius:20px;
-  border:1px solid #38bdf8;
+  border:1px solid #1e293b;
   max-width:800px;
-  margin-top:40px;
+  margin:auto;
+  margin-top:60px;
+  animation: popUp 0.7s ease-out;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+ border: 1px solid #38bdf8;
 }
-
+.testimonial-container .stars{
+  margin-bottom: 10px;
+}
 .testimonial{
   font-size:18px;
+  transition:0.5s;
+}
+.testimonial-container:hover{
+   transform:translateY(-5px); 
 }
 
 .author{
@@ -232,9 +232,7 @@ section{
   font-weight:600;
 }
 
-/* ===============================
-   FOOTER
-================================ */
+/* FOOTER */
 .footer{
   background:#020617;
   padding:60px 10% 20px;
@@ -248,8 +246,17 @@ section{
   gap:40px;
 }
 
+.footer h3{
+  color:#38bdf8;
+}
+
+.footer h4{
+  margin-bottom:10px;
+}
+
 .footer p{
   color:#94a3b8;
+  margin-bottom:6px;
 }
 
 .footer-bottom{
@@ -258,67 +265,11 @@ section{
   color:#64748b;
 }
 
-/* ===============================
-   RESPONSIVE
-================================ */
-
-/* Tablets */
-@media (max-width:1023px){
-
+/* Responsive */
+@media(max-width:768px){
   .hero h1{font-size:3rem;}
-  .mainPara{font-size:1.2rem;}
-
-  .card{width:220px;}
-  .work-card{width:240px;}
-
-}
-
-/* Mobile */
-@media (max-width:767px){
-
-  .navbar{
-    flex-direction:column;
-    gap:10px;
-    padding:12px 15px;
-  }
-
-  .hero h1{font-size:2.2rem;}
-  .mainPara{font-size:1rem;}
-
-  .hero-cards{
-    flex-direction:column;
-    align-items:center;
-  }
-
-  .card{
-    width:90%;
-  }
-
-  .work-cards{
-    flex-direction:column;
-    align-items:center;
-  }
-
-  .work-card{
-    width:90%;
-  }
-
-  .testimonial-container{
-    padding:30px 20px;
-  }
-
-  .footer-container{
-    flex-direction:column;
-  }
-
-}
-
-/* Small Mobile */
-@media (max-width:480px){
-
-  .hero h1{font-size:1.8rem;}
-  .mainPara{font-size:0.9rem;}
-
+  .hero-cards{flex-direction:column;align-items:center;}
+  .work-cards{flex-direction:column;align-items:center;}
 }
 </style>
 </head>
