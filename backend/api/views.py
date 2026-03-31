@@ -40,7 +40,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     lookup_value_regex = '[^/]+'
     permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter]
-    search_fields = ['name', 'headline', 'skills', 'department']
+    search_fields = ['name', 'department', 'bio', 'photography_types', 'location']
     pagination_class = StandardResultsSetPagination
 
     @action(detail=False, methods=['get', 'patch'])
@@ -74,11 +74,15 @@ class ProfileViewSet(viewsets.ModelViewSet):
         
         # Only filter out incomplete profiles when LISTING talents (freelancers)
         if self.action == 'list' and role == 'freelancer':
-            # Check for completeness based on essential fields
-            # For freelancers, we check for department.
-            queryset = queryset.filter(department__isnull=False).exclude(department="")
-            # Also respect the is_completed flag
-            queryset = queryset.filter(is_completed=True)
+            queryset = queryset.filter(
+            is_completed=True,
+            pricing__isnull=False,
+            bio__isnull=False,
+            photography_types__isnull=False
+            ).exclude(
+                bio="",
+                photography_types=""
+            )
             
         return queryset
 
