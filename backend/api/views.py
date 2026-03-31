@@ -40,7 +40,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     lookup_value_regex = '[^/]+'
     permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter]
-    search_fields = ['name', 'department', 'bio', 'photography_types', 'location']
+    search_fields = ['name', 'headline', 'skills', 'department', 'bio', 'photography_types', 'location']
     pagination_class = StandardResultsSetPagination
 
     @action(detail=False, methods=['get', 'patch'])
