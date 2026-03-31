@@ -1,11 +1,10 @@
 import os
-from auto_migrate import run_migrations  # your migration runner
+from django.core.wsgi import get_wsgi_application
+from django.core.management import call_command
 
-# Set Django settings module first
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend_core.settings')
 
-# Run migrations before loading WSGI application
-run_migrations()
+# Run migrations (careful: every cold start!)
+call_command("migrate", interactive=False)
 
-from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
