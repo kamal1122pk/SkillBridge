@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>upload portfolio</title>
+</head>
+<body>
+    <form id="upload-portfolio-form">
+        <input type="file" id="portfolio-file" name="portfolio-file" required>
+        <button type="submit">Upload</button>
+    </form>
+    <script>
+        document.getElementById('upload-portfolio-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            const fileInput = document.getElementById('portfolio-file');
+            formData.append('portfolio-file', fileInput.files[0]);
+            const response = await fetch('http://localhost:8000/uploadportfolio/', {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` },
+                body: formData
+            });
+            const data = await response.json();
+            if (response.ok) {
+                alert('Portfolio uploaded successfully');
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('Portfolio not uploaded');
+            }
+        });
+    </script>
+</body>
+</html>

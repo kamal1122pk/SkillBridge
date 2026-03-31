@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Backend</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            color: #f8fafc;
+            margin-bottom: 1rem;
+        }
+        
+        .dashboard-content {
+            padding: 2rem;
+            background: rgba(30, 41, 59, 0.5); /* Slate 800 with transparency */
+            border-radius: 12px;
+            border: 1px dashed #475569; /* Slate 600 */
+        }
+
+        .dashboard-content p {
+            color: #94a3b8;
+            font-size: 1.125rem;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #ef4444; /* Red 500 */
+            color: #ef4444;
+            max-width: 200px;
+            margin: 2rem auto 0;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container dashboard-container">
+        <div class="dashboard-header">
+            <h1>Welcome to your Dashboard</h1>
+            <p>You have successfully logged in.</p>
+        </div>
+        
+        <div class="dashboard-content">
+            <p>This is an empty dashboard. Your content will appear here.</p>
+        </div>
+
+        <button id="PostJobButton" class="btn post-job-btn" onclick="window.location.href='postjob.html'"> Post Job</button>
+
+        <button id="logoutBtn" class="btn logout-btn">Log Out</button>
+    </div>
+
+    <script>
+        // Simple logout logic for the dashboard
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            // Optional: clear token if implemented
+            // localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>
