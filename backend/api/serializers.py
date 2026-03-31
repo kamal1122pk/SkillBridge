@@ -54,6 +54,15 @@ class ProfileSerializer(serializers.ModelSerializer):
         from django.db.models import Sum
         total = obj.orders_received.filter(status__in=['Active', 'Work Submitted', 'Completed']).aggregate(Sum('amount'))['amount__sum']
         return float(total) if total else 0.0
+        
+    def validate_pricing(self, value):
+        try:
+            return float(value)
+        except:
+            raise serializers.ValidationError("Invalid pricing format")
+            
+    def validate_is_completed(self, value):
+        return str(value).lower() == 'true'
 
     class Meta:
         model = Profile
@@ -62,7 +71,14 @@ class ProfileSerializer(serializers.ModelSerializer):
             'headline', 'department', 'skills', 'experience', 
             'stipend', 'bank_account', 'account_name', 'company_name', 'project_type', 'budget_range',
             'portfolio_media', 'saved_freelancers', 'unread_messages_count',
-            'is_verified', 'is_me', 'avg_rating', 'completion_rate', 'reviews_count', 'reputation_points', 'total_earnings', 'is_completed', 'is_banned'
+            'is_verified', 'is_me', 'avg_rating', 'completion_rate', 'reviews_count', 'reputation_points', 'total_earnings', 'is_completed', 'is_banned',
+            # NEW
+            'bio',
+            'photography_types',
+            'experience_level',
+            'location',
+            'portfolio_link',
+            'pricing'
         ]
 
 
