@@ -22,6 +22,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     completion_rate = serializers.SerializerMethodField()
     is_me = serializers.SerializerMethodField()
     total_earnings = serializers.SerializerMethodField()
+    portfolio_link = serializers.URLField(required=False, allow_blank=True)
+
 
     def get_is_me(self, obj):
         request = self.context.get('request')
@@ -63,6 +65,11 @@ class ProfileSerializer(serializers.ModelSerializer):
             
     def validate_is_completed(self, value):
         return str(value).lower() == 'true'
+        
+    def validate_portfolio_link(self, value):
+        if value and not value.startswith(('http://', 'https://')):
+            raise serializers.ValidationError("Portfolio link must start with http:// or https://")
+        return value
 
     class Meta:
         model = Profile
