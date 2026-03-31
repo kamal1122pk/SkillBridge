@@ -36,9 +36,6 @@ class Profile(models.Model):
     is_completed = models.BooleanField(default=False)
     is_banned = models.BooleanField(default=False)
 
-
-
-    
     def __str__(self):
         return f"{self.name} ({self.role})"
 
@@ -50,14 +47,14 @@ class PortfolioMedia(models.Model):
 class Job(models.Model):
     STATUS_CHOICES = [('Open', 'Open'), ('In Progress', 'In Progress'), ('Closed', 'Closed'), ('Completed', 'Completed')]
     
-    client = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='jobs_posted')
+    client = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='jobs_posted', null=True, blank=True)
     title = models.CharField(max_length=255)
     skills_required = models.JSONField(default=list)
-    stipend = models.DecimalField(max_digits=10, decimal_places=2)
-    deadline = models.DateField()
-    description = models.TextField()
+    stipend = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    deadline = models.DateField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Open')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
     def __str__(self):
         return self.title
@@ -75,13 +72,13 @@ class Order(models.Model):
         ('Disputed', 'Disputed'),
     ]
 
-    order_id = models.CharField(max_length=50, unique=True)
-    client = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='orders_placed')
-    freelancer = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='orders_received')
-    project_name = models.CharField(max_length=255)
-    requirements = models.TextField()
-    deadline = models.DateField()
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    order_id = models.CharField(max_length=50, unique=True, null=True, blank=True)
+    client = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='orders_placed', null=True, blank=True)
+    freelancer = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='orders_received', null=True, blank=True)
+    project_name = models.CharField(max_length=255, null=True, blank=True)
+    requirements = models.TextField(null=True, blank=True)
+    deadline = models.DateField(null=True, blank=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='Pending Payment')
     transaction_id = models.CharField(max_length=100, null=True, blank=True)
     payment_proof = models.ImageField(upload_to='payment_proofs/', null=True, blank=True)
@@ -98,7 +95,7 @@ class Order(models.Model):
     work_submission_link = models.URLField(max_length=500, null=True, blank=True)
     submitted_at = models.DateTimeField(null=True, blank=True)
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
     def save(self, *args, **kwargs):
         if not self.order_id:
@@ -110,16 +107,16 @@ class Order(models.Model):
 
 class Review(models.Model):
     order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='review')
-    reviewer = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='reviews_given')
-    reviewee = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='reviews_received')
-    rating = models.IntegerField()
-    review_text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    reviewer = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='reviews_given', null=True, blank=True)
+    reviewee = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='reviews_received', null=True, blank=True)
+    rating = models.IntegerField(null=True, blank=True)
+    review_text = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 class OTP(models.Model):
     email = models.EmailField()
     code = models.CharField(max_length=6)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
         return f"{self.email} - {self.code}"
@@ -128,13 +125,13 @@ class OTP(models.Model):
 class Conversation(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     participants = models.ManyToManyField(Profile, related_name='conversations')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 class Message(models.Model):
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sent_messages')
     text = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     read = models.BooleanField(default=False)
 
 class Application(models.Model):
@@ -144,7 +141,7 @@ class Application(models.Model):
     freelancer = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='job_applications')
     cover_letter = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
-    applied_at = models.DateTimeField(auto_now_add=True)
+    applied_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
         unique_together = ('job', 'freelancer')
