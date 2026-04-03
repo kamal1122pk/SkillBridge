@@ -302,27 +302,25 @@ color:black;
 
 <!-- NAVBAR -->
   <nav class="navbar">
-    <div class="logo">SkillBridge</div>
+    <div class="logo">LensLink<i class="fa-solid fa-camera-retro"></i></div>
     <ul class="nav-links">
       <li onclick="goDashboard()">Dashboard</li>
       <li id="messagesNav" onclick="goMessage()">Messages</li>
-      <li id="projectNav" onclick="goProjects()">Projects</li>
-      <li><a href="browseJob.html" style="text-decoration:none; color:inherit;">Browse Jobs</a></li>
+      <li id="projectNav" onclick="goProjects()">Shoots</li>
+      <li><a href="browseJob.html" style="text-decoration:none; color:inherit;">Browse</a></li>
       
     </ul>
     <!-- Username filled by JS -->
      <div style="display:flex; gap:20px; align-items: center;">
-        <div class="user-name" id="navUserName">Freelancer</div>
+        <div class="user-name" id="navUserName">Photographer</div>
       <button onclick="logout()" style="background: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 600;">Logout</button>
       </div>
     </div>
   </nav>
 
 <section class="header">
-  <h1>Find Job and Earn..</h1>
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Search by name or skill..." oninput="searchJobs()">
-  </div>
+  <h1>Find Events and Earn..</h1>
+ 
 </section>
 <div class="jobs-container" id="jobsContainer"></div>
 

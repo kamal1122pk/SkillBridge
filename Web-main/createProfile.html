@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>SkillBridge - Create Profile</title>
+  <title>Create Profile</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <script src="config.js"></script>
@@ -198,35 +198,27 @@
     <p class="subtitle">Build your professional profile step by step</p>
 
     <div class="card">
-      <!-- Step 1: Name -->
-      <div id="step1" class="step">
-        <h2>Enter Your Name</h2>
-        <input type="text" id="name" placeholder="Your full name">
-        <button type="button" onclick="nextStep(1)">Next</button>
-      </div>
+   <!-- Step 1 -->
+<div id="step1" class="step">
+  <h2>Your Name</h2>
+  <input type="text" id="name" placeholder="Full Name">
+  <button onclick="nextStep(1)">Next</button>
+</div>
 
-      <!-- Step 2: Profile Picture -->
-      <div id="step2" class="step hidden">
-        <h2>Upload Profile Picture</h2>
-        <input type="file" id="profilePic" accept="image/*">
-        <button type="button" onclick="nextStep(2)">Next</button>
-        <div class="back" onclick="prevStep(2)">←</div>
-      </div>
+<!-- Step 2 -->
+<div id="step2" class="step hidden">
+  <h2>Profile Picture</h2>
+  <input type="file" id="profilePic" accept="image/*">
+  <button onclick="nextStep(2)">Next</button>
+  <div class="back" onclick="prevStep(2)">←</div>
+</div>
 
-      <!-- Step 3: Headline -->
-      <div id="step3" class="step hidden">
-        <h2>Enter Headline</h2>
-        <input type="text" id="headline" placeholder="e.g., Professional Photographer">
-        <button type="button" onclick="nextStep(3)">Next</button>
-        <div class="back" onclick="prevStep(3)">←</div>
-      </div>
-
-      <!-- Step 4: Department -->
-      <div id="step4" class="step hidden">
-        <h2>Department</h2>
-        <select id="department">
-          <option value="">Select Your Department</option>
-          <option value="Software Engineering">Software Engineering</option>
+<!-- Step 3 -->
+<div id="step3" class="step hidden">
+  <h2>Department</h2>
+  <select id="department">
+    <option value="">Select Department</option>
+         <option value="Software Engineering">Software Engineering</option>
           <option value="Chemical Engineering">Chemical Engineering</option>
           <option value="Computer System Engineering">Computer System Engineering</option>
           <option value="Computer Science">Computer Science</option>
@@ -240,59 +232,91 @@
           <option value="Civil Engineering">Civil Engineering</option>
           <option value="English">Centre of English Language and Linguistic</option>
           <option value="Mathematics">Mathematics</option>
-        </select>
-        <button type="button" onclick="nextStep(4)">Next</button>
-        <div class="back" onclick="prevStep(4)">←</div>
-      </div>
+  </select>
+  <button onclick="nextStep(3)">Next</button>
+  <div class="back" onclick="prevStep(3)">←</div>
+</div>
 
-      <!-- Step 5: Skills -->
-      <div id="step5" class="step hidden">
-        <h2>Skills</h2>
-        <input type="text" id="skills" placeholder="e.g., Photography, Editing, Photoshop">
-        <button type="button" onclick="nextStep(5)">Next</button>
-        <div class="back" onclick="prevStep(5)">←</div>
-      </div>
+<!-- Step 4 -->
+<div id="step4" class="step hidden">
+  <h2>Bio</h2>
+  <textarea id="bio" placeholder="Tell about your photography..."></textarea>
+  <button onclick="nextStep(4)">Next</button>
+  <div class="back" onclick="prevStep(4)">←</div>
+</div>
 
-      <!-- Step 6: Experience -->
-      <div id="step6" class="step hidden">
-        <h2>Experience</h2>
-        <textarea id="experience" placeholder="Describe your previous work or experience..."></textarea>
-        <button type="button" onclick="nextStep(6)">Next</button>
-        <div class="back" onclick="prevStep(6)">←</div>
-      </div>
+<!-- Step 5 -->
+<div id="step5" class="step hidden">
+  <h2>Photography Type</h2>
 
-      <!-- Step 7: Best Work Images -->
-      <div id="step7" class="step hidden">
-        <h2>Upload Best Work (Up to 2 Images)</h2>
-        <input type="file" id="bestWorkImages" accept="image/*" multiple>
-        <button type="button" onclick="nextStep(7)">Next</button>
-        <div class="back" onclick="prevStep(7)">←</div>
-      </div>
-      <!-- Step 8: Portfolio Video -->
-      <div id="step8" class="step hidden">
-        <h2>Upload Portfolio Video</h2>
-        <input type="file" id="videoFile" accept="video/mp4,video/webm,video/ogg">
-        <button type="button" onclick="nextStep(8)">Next</button>
-        <div class="back" onclick="prevStep(8)">←</div>
-      </div>
+  <select id="photographyType">
+    <option value="">Select Type</option>
+    <option value="Event">Event</option>
+    <option value="Portrait">Portrait</option>
+    <option value="Wedding">Wedding</option>
+    <option value="Product">Product</option>
+    <option value="Fashion">Fashion</option>
+    <option value="Street">Street</option>
+  </select>
 
-      <!-- Step 9: Expected Stipend -->
-      <div id="step9" class="step hidden">
-        <h2>Expected Stipend</h2>
-        <input type="text" id="stipend" placeholder="Expected Stipend (Rs)">
-        <button type="button" onclick="nextStep(9)">Next</button>
-        <div class="back" onclick="prevStep(9)">←</div>
-      </div>
+  <button onclick="nextStep(5)">Next</button>
+  <div class="back" onclick="prevStep(5)">←</div>
+</div>
 
-      <!-- Step 10: Bank Account Number -->
-      <div id="step10" class="step hidden">
-        <h2>EasyPaisa Number</h2>
-        <input type="number" id="bankAccount" placeholder="Your bank account number">
-        <h2>Account Name</h2>
-        <input type="text" id="accountName" placeholder="Your account name">
-        <button type="button" onclick="createProfile()">Create Profile</button>
-        <div class="back" onclick="prevStep(10)">←</div>
-      </div>
+<!-- Step 6 -->
+<div id="step6" class="step hidden">
+  <h2>Experience Level</h2>
+  <select id="experience">
+    <option value="">Select</option>
+    <option>Beginner</option>
+    <option>Intermediate</option>
+    <option>Professional</option>
+  </select>
+  <button onclick="nextStep(6)">Next</button>
+  <div class="back" onclick="prevStep(6)">←</div>
+</div>
+
+<!-- Step 7 -->
+<div id="step7" class="step hidden">
+  <h2>Location</h2>
+
+  <select id="location">
+    <option value="">Select Location</option>
+    <option value="MUET">MUET</option>
+    <option value="Hyderabad">Hyderabad</option>
+    <option value="Jamshoro">Jamshoro</option>
+  </select>
+
+  <button onclick="nextStep(7)">Next</button>
+  <div class="back" onclick="prevStep(7)">←</div>
+</div>
+
+<!-- Step 8 -->
+<div id="step8" class="step hidden">
+  <h2>Portfolio Link</h2>
+  <input type="text" id="portfolio" placeholder="Google Drive / Instagram link">
+  <button onclick="nextStep(8)">Next</button>
+  <div class="back" onclick="prevStep(8)">←</div>
+</div>
+
+<!-- Step 9 -->
+<div id="step9" class="step hidden">
+  <h2>Pricing</h2>
+  <input type="text" id="pricing" placeholder="Starting price (Rs)">
+  <button onclick="nextStep(9)">Next</button>
+  <div class="back" onclick="prevStep(9)">←</div>
+</div>
+
+<!-- Step 10 -->
+<div id="step10" class="step hidden">
+  <h2>Bank Account</h2>
+  <input type="text" id="bankAccount" placeholder="Account Number">
+  <h2>Account Title</h2>
+  <input type="text" id="accountTitle" placeholder="Account Title">
+  <button onclick="createProfile()">Create Profile</button>
+  <div class="back" onclick="prevStep(10)">←</div>
+</div>
+
     </div>
   </div>
 

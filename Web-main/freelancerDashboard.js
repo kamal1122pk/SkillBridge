@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* IMPORTANT: render dashboard after DOM ready */
     loadFreelancerProfile();
     updateDashboardStats();
-    renderVerificationRequests();
+    fetchVerificationRequests(1);
     checkAdminAccess();
 });
 
@@ -171,10 +171,8 @@ function renderRequestsList() {
         o.status === "Confirmation Pending" ||
         o.status === "Payment Rejected"
     );
-    const workPending = orders.filter(o => o.status === "Work Submitted" || o.status === "Revision Requested");
-    const disputed = orders.filter(o => o.status === "Disputed");
 
-    if (paymentPending.length === 0 && workPending.length === 0 && disputed.length === 0) {
+    if (paymentPending.length === 0) {
         container.innerHTML = "<p style='color:#9ca3af; font-size:1rem;'>No pending requests</p>";
         return;
     }
@@ -189,49 +187,29 @@ function renderRequestsList() {
       <p><strong>Order ID:</strong> ${order.order_id}</p>
       <p><strong>Amount:</strong> PKR ${order.amount}</p>
       <p><strong>Transaction ID:</strong> ${order.transaction_id || 'N/A'}</p>
-      ${order.payment_proof ? `<div style="margin-top:8px;"><img src="${order.payment_proof}" style="max-width:100%; border-radius:8px; border:1px solid rgba(56,189,248,0.3);" alt="Payment proof"></div>` : ''}
       <div class="verify-buttons">
        ${order.status === "Payment Rejected"
                 ? '<span style="color:#ef4444;font-weight:bold;">Payment Rejected</span>'
-                : `<button class="confirm-btn" onclick="confirmPayment('${order.order_id}')">Confirm Payment</button>
-         <button class="reject-btn" onclick="rejectPayment('${order.order_id}')">Reject</button>`
+                : `<button class="confirm-btn" onclick="confirmPayment('${order.order_id}', this)">Confirm Payment</button>
+         <button class="reject-btn" onclick="rejectPayment('${order.order_id}', this)">Reject</button>`
             }
       </div>
       `;
         container.appendChild(div);
     });
 
-    // --- Work Submitted ---
-    workPending.forEach(order => {
-        const div = document.createElement("div");
-        div.className = "verification-card";
-        div.innerHTML = `
-      <h3>${order.project_name || 'Project'}</h3>
-      <p><strong>Client:</strong> ${order.client_name || "Client"}</p>
-      <p><strong>Order ID:</strong> ${order.order_id}</p>
-      ${order.status === "Revision Requested" ? '<p style="color:#facc15; font-weight:600; margin-top:10px;">🔄 Revision Requested — Action Needed</p>' : '<p style="color:#38bdf8; font-weight:600; margin-top:10px;">⏳ Work Submitted — Awaiting Approval</p>'}
-      ${order.work_submission_text ? `<p style="color:#94a3b8; margin-top:6px;">${order.work_submission_text}</p>` : ''}
-      ${order.work_submission_link ? `<a href="${order.work_submission_link}" target="_blank" style="color:#38bdf8;">🔗 View Deliverable</a>` : ''}
-      `;
-        container.appendChild(div);
-    });
-
-    // --- Disputed Orders ---
-    disputed.forEach(order => {
-        const div = document.createElement("div");
-        div.className = "verification-card";
-        div.innerHTML = `
-      <h3>${order.project_name || 'Project'}</h3>
-      <p><strong>Client:</strong> ${order.client_name || "Client"}</p>
-      <p style="color:#ef4444; font-weight:600; margin-top:10px;">⚠️ Disputed — Under Admin Review</p>
-      `;
-        container.appendChild(div);
-    });
 }
 
-async function togglePaymentStatus(orderId, newStatus) {
+async function togglePaymentStatus(orderId, newStatus, btn) {
     const token = localStorage.getItem("access_token");
     if (!token) return;
+
+    let originalText = "";
+    if (btn) {
+        originalText = btn.innerText;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    }
 
     try {
         const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/orders/${orderId}/`, {
@@ -244,8 +222,14 @@ async function togglePaymentStatus(orderId, newStatus) {
         });
 
         if (response.ok) {
+            console.log("success")
             loadFreelancerProfile(); // Reload profile to get updated earnings
-            fetchVerificationRequests(1);
+            
+            // Local state tweak
+            const order = allRequests.find(o => o.order_id === orderId);
+            if (order) order.status = newStatus;
+            renderRequestsList();
+
             updateDashboardStats();
         } else {
             showToast(`Failed to update to ${newStatus}`, "error");
@@ -253,17 +237,22 @@ async function togglePaymentStatus(orderId, newStatus) {
     } catch (err) {
         console.error(err);
         showToast("Error updating order status.", "error");
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = originalText;
+        }
     }
 }
 
 // confirm payment
-function confirmPayment(orderId) {
-    togglePaymentStatus(orderId, "Active");
+function confirmPayment(orderId, btn) {
+    togglePaymentStatus(orderId, "Active", btn);
 }
 
 // reject payment
-function rejectPayment(orderId) {
-    togglePaymentStatus(orderId, "Payment Rejected");
+function rejectPayment(orderId, btn) {
+    togglePaymentStatus(orderId, "Payment Rejected", btn);
 }
 
 fetchVerificationRequests(1);

@@ -51,6 +51,22 @@ async function loadClientProfile() {
 
   const banner = document.getElementById("verifyBanner");
   if (banner) banner.style.display = data.is_verified ? "none" : "block";
+
+  // --- Profile Completeness Check ---
+  const isProfileIncomplete = !data.name || !data.project_type || !data.budget_range;
+  const container = document.getElementById("incompletedProfile");
+
+  if (isProfileIncomplete && container) {
+    container.innerHTML = `
+      <div style="background: #be123c; color: white; text-align: center; padding: 15px; font-weight: 600; position: fixed; top: ${data.is_verified ? '70px' : '110px'}; left: 0; width: 100%; z-index: 997; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <i class="fas fa-user-edit"></i> Your profile is incomplete! 
+        <a href="createClientProfile.html" style="color: #cbd5f5; text-decoration: underline; margin-left: 10px;">Complete it now</a> 
+        to start posting jobs and hiring photographers.
+      </div>
+    `;
+    // Adjust container padding to prevent overlapping
+    document.querySelector(".container").style.paddingTop = data.is_verified ? "130px" : "180px";
+  }
 }
 
 async function updateClientStats() {
@@ -109,7 +125,7 @@ async function removeFreelancer(freelancerEmail) {
 
   if (res.ok) {
     showToast("Removed successfully", "success");
-    loadClientProfile();
+    initDashboard();
   } else {
     showToast("Failed to remove freelancer.", "error");
   }
@@ -175,9 +191,10 @@ async function renderMyPosts() {
 
     div.innerHTML = `
       <div class="job-title">${job.title}</div>
-      <div class="job-info">Skills: ${job.skills_required.join(", ")}</div>
-      <div class="job-info">Deadline: ${job.deadline}</div>
-      <div class="job-info">Stipend: PKR ${job.stipend}</div>
+      <div class="job-info"><i class="fa-solid fa-location-dot"></i> ${job.location || 'Not specified'}</div>
+      ${job.skills_required && job.skills_required.length > 0 ? `<div class="job-info">Skills: ${job.skills_required.join(", ")}</div>` : ''}
+      <div class="job-info">Event Date: ${job.deadline}</div>
+      <div class="job-info">Budget: PKR ${job.stipend}</div>
       <div class="job-info" style="margin-top: 5px;">Status: <span style="color:${statusStyle}">${job.status}</span></div>
 
       <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
@@ -205,7 +222,7 @@ async function markJobCompleted(jobId) {
         });
         if (response.ok) {
           showToast("Job marked as completed!", "success");
-          setTimeout(() => renderMyPosts(), 2000);
+          setTimeout(() => initDashboard(), 500);
         } else {
           showToast("Failed to update job status.", "error");
         }
@@ -231,7 +248,7 @@ async function deletePost(jobId) {
         });
         if (response.ok) {
           showToast("Job deleted successfully", "success");
-          setTimeout(() => renderMyPosts(), 2000);
+          setTimeout(() => initDashboard(), 500);
         } else {
           showToast("Failed to delete job.", "error");
         }
@@ -273,8 +290,8 @@ function logout() {
   window.location.replace("login.html");
 }
 
-function goBrowse()   { window.location.replace("browseTalent.html"); }
-function goProfile()  { window.location.replace("clientProfileView.html"); }
+function goBrowse() { window.location.replace("browseTalent.html"); }
+function goProfile() { window.location.replace("clientProfileView.html"); }
 function goMessages() { window.location.replace("chat.html"); }
-function goOrders()   { window.location.replace("order.html"); }
-function goPostJob()  { window.location.replace("postJob.html"); }  
+function goOrders() { window.location.replace("order.html"); }
+function goPostJob() { window.location.replace("postJob.html"); }  

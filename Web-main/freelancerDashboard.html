@@ -8,7 +8,7 @@
   <script src="config.js"></script>
   <link rel="stylesheet" href="notifications.css">
   <script src="notifications.js"></script>
-  <title>Freelancer Dashboard</title>
+  <title>Photographer Dashboard</title>
   <script src="authGuard.js"></script>
   <style>
     * {
@@ -101,16 +101,16 @@
     }
 
     /* CARDS */
-    .dashboard-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-    }
+ .dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
 
     .dashboard-card {
       background: linear-gradient(145deg, #0f172a, #020617);
       border-radius: 20px;
-      padding: 30px;
+      padding: 40px;
       min-height: 300px;
 
       display: flex;
@@ -275,6 +275,7 @@
   }
 
   .dashboard-card {
+     grid-template-columns: repeat(2, 1fr);
     padding: 25px;
   }
 
@@ -332,17 +333,17 @@
 
   <!-- NAVBAR -->
   <nav class="navbar">
-    <div class="logo">SkillBridge</div>
+    <div class="logo">LensLink<i class="fa-solid fa-camera-retro"></i></div>
     <ul class="nav-links" id="navLinks">
       <li>Dashboard</li>
       <li id="messagesNav" onclick="goMessage()">Messages</li>
-      <li id="projectNav" onclick="goProjects()">Projects</li>
+      <li id="projectNav" onclick="goProjects()">Shoots</li>
       <li><a href="browseJob.html" style="text-decoration:none; color:inherit;">Browse Jobs</a></li>
 
     </ul>
     <!-- Username filled by JS -->
     <div style="display: flex; align-items: center; gap: 20px;">
-      <div class="user-name" id="navUserName">Freelancer</div>
+      <div class="user-name" id="navUserName">Photographer</div>
       <button onclick="logout()"
         style="background: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 600;">Logout</button>
     </div>
@@ -363,7 +364,7 @@
 
       <div class="dashboard-card">
         <div>
-          <h3>Ongoing Projects <i class="fa-solid fa-hand-holding-hand fa-xs" style="color: rgb(116, 192, 252);"></i>
+          <h3>Upcoming Shoots <i class="fa-solid fa-camera" style="color: rgb(116, 192, 252);"></i>
           </h3>
           <!-- <p class="subHeading">Go to projects to see Ongoing Projects</p> -->
           <p id="ongoingProjects">0</p>
@@ -372,7 +373,7 @@
 
       <div class="dashboard-card">
         <div>
-          <h3>Pending Requests <i class="fa-regular fa-bell fa-xs" style="color: rgb(116, 192, 252);"></i></h3>
+          <h3>Booking Requests <i class="fa-regular fa-bell fa-xs" style="color: rgb(116, 192, 252);"></i></h3>
           <!-- <p class="subHeading">There are no pending requests</p> -->
           <p id="pendingProjects">0</p>
         </div>

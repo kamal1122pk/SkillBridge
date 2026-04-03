@@ -191,7 +191,7 @@ class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
         fields = [
-            'id', 'client', 'client_name', 'client_email', 'client_profile_pic', 'title', 'skills_required', 
+            'id', 'client', 'client_name', 'client_email', 'client_profile_pic', 'title', 'location', 'skills_required', 
             'stipend', 'deadline', 'description', 'status', 'created_at'
         ]
         extra_kwargs = {
@@ -208,12 +208,25 @@ class JobSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    client_name = serializers.CharField(source='client.name', read_only=True)
-    freelancer_name = serializers.CharField(source='freelancer.name', read_only=True)
-    client_email = serializers.EmailField(source='client.user.email', read_only=True)
-    freelancer_email = serializers.EmailField(source='freelancer.user.email', read_only=True)
+    client_name = serializers.SerializerMethodField()
+    freelancer_name = serializers.SerializerMethodField()
+    client_email = serializers.SerializerMethodField()
+    freelancer_email = serializers.SerializerMethodField()
     client_email_input = serializers.EmailField(write_only=True, required=False) # Deprecated, use token
     freelancer_email_input = serializers.EmailField(write_only=True, required=True)
+
+    def get_client_name(self, obj):
+        return obj.client.name if obj.client else "Unknown"
+
+    def get_freelancer_name(self, obj):
+        return obj.freelancer.name if obj.freelancer else "Unknown"
+
+    def get_client_email(self, obj):
+        return obj.client.user.email if obj.client and obj.client.user else "N/A"
+
+    def get_freelancer_email(self, obj):
+        return obj.freelancer.user.email if obj.freelancer and obj.freelancer.user else "N/A"
+
     has_review = serializers.SerializerMethodField()
 
     def get_has_review(self, obj):
@@ -230,7 +243,7 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'order_id', 'client', 'client_name', 'freelancer', 'freelancer_name',
             'client_email', 'freelancer_email', 'client_email_input', 'freelancer_email_input',
-            'project_name', 'requirements', 'deadline', 'amount', 'status',
+            'project_name', 'shoot_type', 'location', 'requirements', 'deadline', 'amount', 'status',
             'transaction_id', 'payment_proof', 'admin_notes',
             'dispute_reason', 'dispute_raised_at', 'resolution_notes', 'resolved_at',
             'work_submission_text', 'work_submission_link', 'submitted_at',

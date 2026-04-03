@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" href="notifications.css">
   <script src="notifications.js"></script>
-  <title>Client Dashboard</title>
+  <title>LensLink - Client Dashboard</title>
   <script src="config.js"></script>
   <script src="authGuard.js"></script>
 
@@ -64,6 +64,7 @@
       font-size: 1.5rem;
       font-weight: bold;
       color: #38bdf8;
+      cursor: pointer;
     }
 
     .nav-links {
@@ -442,13 +443,13 @@
 <body>
 
   <nav class="navbar">
-    <div class="logo">SkillBridge</div>
+    <div class="logo" onclick="goHome()">LensLink<i class="fa-solid fa-camera-retro"></i></div>
 
     <ul class="nav-links" id="navLinks">
-      <li onclick="goBrowse()">Browse Talent</li>
+      <li onclick="goBrowse()">Browse</li>
       <li onclick="goMessages()">Messages</li>
       <li onclick="goProfile()">Profile</li>
-      <li onclick="goOrders()">Orders</li>
+      <li onclick="goOrders()">Bookings</li>
     </ul>
 
     <div style="display: flex; align-items: center; gap: 20px;">
@@ -464,6 +465,8 @@
     account.
   </div>
 
+  <div id="incompletedProfile"></div>
+
   <div class="container">
     <div class="welcome-row">
       <div class="welcome">
@@ -472,12 +475,12 @@
       <button class="post-job-btn" onclick="goPostJob()">Post Job</button>
     </div>
 
-    <div class="subtext">Find the best talent for your projects</div>
+    <div class="subtext">Find the perfect Photographer for your events</div>
 
     <!-- STATS -->
     <div class="stats">
       <div class="card stat-card">
-        <h3>Saved Freelancers <i class="fa-regular fa-bookmark" style="color: rgb(116, 192, 252);"></i></h3>
+        <h3>Saved Photographers <i class="fa-regular fa-bookmark" style="color: rgb(116, 192, 252);"></i></h3>
         <h1 id="savedCount">0</h1>
       </div>
 
@@ -487,7 +490,7 @@
       </div>
 
       <div class="card stat-card">
-        <h3>Active Orders <i class="fa-solid fa-cart-arrow-down" style="color: rgb(116, 192, 252);"></i></h3>
+        <h3>Bookings <i class="fa-solid fa-cart-arrow-down" style="color: rgb(116, 192, 252);"></i></h3>
         <h1 id="activeOrders">0</h1>
       </div>
 
@@ -505,7 +508,7 @@
       </div>
 
       <div class="card big-card">
-        <h3>Saved Freelancers <i class="fa-regular fa-bookmark" style="color: rgb(116, 192, 252);"></i></h3>
+        <h3>Saved Photographers <i class="fa-regular fa-bookmark" style="color: rgb(116, 192, 252);"></i></h3>
         <div id="savedFreelancers"></div>
       </div>
     </div>

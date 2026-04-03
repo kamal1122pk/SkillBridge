@@ -12,7 +12,7 @@ async function fetchOrders(page = 1) {
   if (!token) return;
 
   if (page === 1) {
-    container.innerHTML = "<div class='loading'>Loading orders...</div>";
+    container.innerHTML = "<div class='loading'>Loading...</div>";
   }
 
   try {
@@ -20,7 +20,7 @@ async function fetchOrders(page = 1) {
       headers: { "Authorization": `Bearer ${token}` }
     });
     const data = await response.json();
-    
+
     hasNextPage = !!data.next;
     const orders = data.results || [];
 
@@ -84,16 +84,16 @@ function renderOrdersList() {
     const showRequestPayout = isFreelancer && order.status === "Payment Requested";
 
     card.innerHTML = `
-      <div class="order-title">${order.project_name}</div>
-      <div class="order-info">${isClient ? `Freelancer: ${order.freelancer_name}` : `Client: ${order.client_name}`}</div>
-      <div class="order-info">Order ID: ${order.order_id}</div>
-      <div class="order-info">Deadline: ${order.deadline}</div>
+      <div class="order-title">${order.shoot_type}</div>
+      <div class="order-info">${isClient ? `Photographer: ${order.freelancer_name}` : `Client: ${order.client_name}`}</div>
+      <div class="order-info">Booking ID: ${order.order_id}</div>
+      <div class="order-info">Shoot Date: ${order.deadline}</div>
       <div class="order-info">Amount: PKR ${order.amount}</div>
       <div class="order-info">Transaction ID: ${order.transaction_id || 'N/A'}</div>
       <div class="status ${getStatusClass(order.status)}">${order.status}</div>
 
       ${order.status === "Confirmation Pending" ? `
-        <div style="margin-top:10px; color:#facc15; font-size:0.9rem;">⏳ ${isClient ? 'Freelancer is verifying your payment proof...' : 'Verify this payment proof to start the order'}</div>
+        <div style="margin-top:10px; color:#facc15; font-size:0.9rem;">⏳ ${isClient ? 'Your payment will be verified shortly...' : 'Verify this payment proof to start the order'}</div>
         ${isFreelancer ? `
           <div style="margin-top:12px; border:1px solid #38bdf8; padding:10px; border-radius:8px;">
              <p style="font-size:13px; color:#38bdf8; margin-bottom:5px;">Client Receipt:</p>
@@ -113,7 +113,7 @@ function renderOrdersList() {
 
       ${showDeliverable && order.work_submission_text ? `
         <div style="margin-top:12px; background:#0f2340; padding:12px; border-radius:8px; border:1px solid rgba(56,189,248,0.2);">
-          <p style="color:#38bdf8; font-weight:600; margin-bottom:6px;">📦 ${isFreelancer ? 'Your Submission' : 'Freelancer Submission'}</p>
+          <p style="color:#38bdf8; font-weight:600; margin-bottom:6px;">📦 ${isFreelancer ? 'Your Submission' : 'Photographer Submission'}</p>
           <p style="color:#cbd5e1;">${order.work_submission_text}</p>
           ${order.work_submission_link ? `<a href="${order.work_submission_link}" target="_blank" style="color:#38bdf8; word-break:break-all;">🔗 ${order.work_submission_link}</a>` : ''}
         </div>
@@ -123,10 +123,7 @@ function renderOrdersList() {
         <div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">
           <div style="display:flex; gap:10px;">
             <button onclick="approveWork('${order.order_id}')" style="flex:1; padding:10px; background:#22c55e; border:none; border-radius:8px; color:white; font-weight:600; cursor:pointer;">
-              ✅ Approve Work
-            </button>
-            <button onclick="requestRevision('${order.order_id}')" style="flex:1; padding:10px; background:#eab308; border:none; border-radius:8px; color:white; font-weight:600; cursor:pointer;">
-              🔄 Request Revision
+              Approve Work
             </button>
           </div>
           <button onclick="disputeOrder('${order.order_id}')" style="width:100%; padding:10px; background:#ef4444; border:none; border-radius:8px; color:white; font-weight:600; cursor:pointer;">
@@ -135,18 +132,18 @@ function renderOrdersList() {
         </div>
       ` : ''}
 
-      ${order.status === "Revision Requested" && isFreelancer ? `
+    <!--  ${order.status === "Revision Requested" && isFreelancer ? `
         <div style="margin-top:12px; background:rgba(234,179,8,0.1); padding:12px; border-radius:8px; border:1px dashed #eab308;">
           <p style="color:#eab308; font-weight:500; font-size:0.9rem; margin-bottom:8px;">Revision Requested! Please review the client's feedback and re-submit your work.</p>
           <button onclick="openSubmitWorkModal('${order.order_id}')" style="width:100%; padding:10px; background:#38bdf8; border:none; border-radius:8px; color:#020617; font-weight:700; cursor:pointer;">
             📤 Re-submit Work
           </button>
         </div>
-      ` : ''}
+      ` : ''} -->
 
       ${showRequestPayout ? `
         <div style="margin-top:12px; background:rgba(34,197,94,0.1); padding:12px; border-radius:8px; border:1px dashed #22c55e;">
-          <p style="color:#22c55e; font-weight:500; font-size:0.9rem; margin-bottom:8px;">Work Approved! You can now request your payment from SkillBridge admin.</p>
+          <p style="color:#22c55e; font-weight:500; font-size:0.9rem; margin-bottom:8px;">Work Approved!</p>
           <button onclick="releasePaymentRequest('${order.order_id}')" style="width:100%; padding:10px; background:#38bdf8; border:none; border-radius:8px; color:#020617; font-weight:700; cursor:pointer;">
             💰 Request Payout from Admin
           </button>
@@ -178,7 +175,7 @@ function redirectToPayment(orderId) {
 /* ---- STATUS CLASS ---- */
 function getStatusClass(status) {
   if (status === "Completed") return "delivered";
-  if (["Active", "Work Submitted", "Payment Requested", "Revision Requested"].includes(status)) return "progress";
+  if (["Active", "Work Submitted", "Payment Requested"].includes(status)) return "progress";
   if (["Payment Rejected", "Disputed", "Cancelled"].includes(status)) return "rejected";
   return "pending";
 }
@@ -186,7 +183,7 @@ function getStatusClass(status) {
 /* ---- CONFIRM PAYMENT (Freelancer) ---- */
 async function confirmClientPayment(orderId) {
   showConfirmToast(
-    "Have you verified the payment in your bank account? This will mark the order as Active.",
+    "Check the payment in your bank account",
     async () => {
       const token = localStorage.getItem("access_token");
       try {
@@ -196,7 +193,7 @@ async function confirmClientPayment(orderId) {
         });
         if (response.ok) {
           showToast("Payment confirmed! Order is now Active.", "success");
-          setTimeout(() => renderOrders(), 2000);
+          setTimeout(() => fetchOrders(1), 2000);
         } else {
           showToast("Failed to confirm payment.", "error");
         }
@@ -208,7 +205,7 @@ async function confirmClientPayment(orderId) {
   );
 }
 
-/* ---- REQUEST REVISION ---- */
+/* ---- REQUEST REVISION ---- 
 async function requestRevision(orderId) {
   showConfirmToast(
     "Request a revision? The freelancer will need to re-submit their work.",
@@ -232,12 +229,11 @@ async function requestRevision(orderId) {
       }
     }
   );
-}
-
+}*/
 /* ---- APPROVE WORK ---- */
 async function approveWork(orderId) {
   showConfirmToast(
-    "Approve this work? The freelancer will be able to request their payout from admin.",
+    "Approve this work?",
     async () => {
       const token = localStorage.getItem("access_token");
       try {
@@ -247,7 +243,7 @@ async function approveWork(orderId) {
         });
         if (response.ok) {
           showToast("Work approved successfully!", "success");
-          setTimeout(() => renderOrders(), 2000);
+          setTimeout(() => fetchOrders(1), 2000);
         } else {
           showToast("Failed to approve work.", "error");
         }
@@ -261,7 +257,7 @@ async function approveWork(orderId) {
 
 /* ---- FREELANCER REQUEST PAYOUT ---- */
 function releasePaymentRequest(orderId) {
-  showToast("Payout request acknowledged. SkillBridge Admin will release the funds to your account after final review.", "info");
+  showToast("Payout request acknowledged.  Admin will release the funds to your account after final review.", "info");
 }
 
 /* ---- SUBMIT WORK MODAL ---- */
@@ -287,6 +283,11 @@ async function submitWork() {
     return;
   }
 
+  const btn = document.getElementById("submitWorkBtn");
+  const originalBtnText = btn.innerText;
+  btn.disabled = true;
+  btn.innerText = "Submitting...";
+
   try {
     const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/orders/${currentSubmitOrderId}/submit_work/`, {
       method: "PATCH",
@@ -300,7 +301,15 @@ async function submitWork() {
     if (response.ok) {
       closeSubmitModal();
       showToast("Work submitted! Waiting for client approval.", "success");
-      setTimeout(() => renderOrders(), 2000);
+      
+      // Instant local tweak
+      const order = allOrders.find(o => o.order_id === currentSubmitOrderId);
+      if (order) {
+          order.status = "Work Submitted";
+          order.work_submission_text = text;
+          order.work_submission_link = link;
+      }
+      renderOrdersList();
     } else {
       const err = await response.json();
       showToast("Error: " + JSON.stringify(err), "error");
@@ -308,6 +317,9 @@ async function submitWork() {
   } catch (err) {
     console.error(err);
     showToast("Failed to submit work.", "error");
+  } finally {
+    btn.disabled = false;
+    btn.innerText = originalBtnText;
   }
 }
 
@@ -325,8 +337,8 @@ async function disputeOrder(orderId) {
       body: JSON.stringify({ dispute_reason: reason.trim() })
     });
     if (response.ok) {
-      showToast("Dispute raised. Our team will review this order.", "success");
-      setTimeout(() => renderOrders(), 2000);
+      showToast("Dispute raised.", "success");
+      setTimeout(() => fetchOrders(1), 2000);
     } else {
       showToast("Failed to raise dispute.", "error");
     }
@@ -383,6 +395,11 @@ async function submitReview() {
     return;
   }
 
+  const btn = document.getElementById("submitReviewBtn");
+  const originalBtnText = btn.innerText;
+  btn.disabled = true;
+  btn.innerText = "Submitting...";
+
   try {
     const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/reviews/`, {
       method: "POST",
@@ -400,7 +417,13 @@ async function submitReview() {
     if (response.ok) {
       closeReviewModal();
       showToast("Review submitted successfully!", "success");
-      setTimeout(() => renderOrders(), 2000);
+      
+      // Update local state instead of 2sec wait
+      const orderIdNum = Number(selectedOrderId);
+      const order = allOrders.find(o => o.id === orderIdNum || o.order_id === selectedOrderId);
+      if (order) order.has_review = true;
+      renderOrdersList();
+      
     } else {
       const err = await response.json();
       showToast("Error: " + JSON.stringify(err), "error");
@@ -408,6 +431,9 @@ async function submitReview() {
   } catch (err) {
     console.error(err);
     showToast("Failed to submit review.", "error");
+  } finally {
+    btn.disabled = false;
+    btn.innerText = originalBtnText;
   }
 }
 

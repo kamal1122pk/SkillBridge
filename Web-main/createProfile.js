@@ -3,13 +3,14 @@ const totalSteps = 10;
 
 let profileData = {
   name: '',
-  headline: '',
   department: '',
-  skills: '',
+  bio: '',
+  photography_types: '',
   experience: '',
-  stipend: '',
-  bank_account: '',
-  account_name: '' 
+  location: '',
+  portfolio: '',
+  pricing: '',
+  bank_account: ''
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("profileSuccess", profileSuccess);
   if (profileSuccess) {
     showToast("Profile and Portfolio Updated Successfully!", "success");
+    sessionStorage.removeItem('profileSuccess');
     window.location.href = "freelancerDashboard.html";
   }
 });
@@ -31,49 +33,103 @@ function showStep(step) {
 
 async function saveData(step) {
   switch (step) {
-    case 1: profileData.name = getValue('name'); break;
-    case 3: profileData.headline = getValue('headline'); break;
-    case 4: profileData.department = getValue('department'); break;
-    case 5:
-      // Backend expects an array for skills
-      profileData.skills = getValue('skills').split(',').map(s => s.trim()).filter(s => s !== "");
+    case 1:
+      profileData.name = getValue('name');
       break;
-    case 6: profileData.experience = getValue('experience'); break;
-    case 9: profileData.stipend = getValue('stipend'); break;
-    case 10: 
-      profileData.bank_account = getValue('bankAccount'); 
-      profileData.account_name = getValue('accountName');
+
+    case 3:
+      profileData.department = getValue('department');
+      break;
+
+    case 4:
+      profileData.bio = getValue('bio');
+      break;
+
+case 5:
+  profileData.photography_types = getValue('photographyType');
+  break;
+  case 6:
+      profileData.experience = getValue('experience');
+      break;
+case 7:
+  profileData.location = getValue('location');
+  break;
+
+    case 8:
+      profileData.portfolio = getValue('portfolio');
+      break;
+
+    case 9:
+      profileData.pricing = getValue('pricing');
+      break;
+
+    case 10:
+      profileData.bank_account = getValue('bankAccount');
       break;
   }
 }
 
 function validateStep(step) {
   let message = '';
+
   switch (step) {
-    case 1: if (!getValue('name')) message = 'Please enter your name.'; break;
-    case 2: if (!getEl('profilePic')?.files[0]) message = 'Please upload a valid image.'; break;
-    case 3: if (!getValue('headline')) message = 'Please enter a headline.'; break;
-    case 4: if (!getValue('department')) message = 'Please select your department.'; break;
-    case 5: if (!getValue('skills')) message = 'Please enter your skills.'; break;
-    case 6: if (!getValue('experience')) message = 'Please describe your experience.'; break;
-    case 7:
-      const imgs = getEl('bestWorkImages')?.files || [];
-      if (imgs.length === 0 || imgs.length > 3) message = 'Upload 1-3 images only.';
+    case 1:
+      if (!getValue('name')) message = 'Please enter your name.';
       break;
+
+    case 2:
+      if (!getEl('profilePic')?.files[0])
+        message = 'Please upload a profile picture.';
+      break;
+
+    case 3:
+      if (!getValue('department'))
+        message = 'Please select your department.';
+      break;
+
+    case 4:
+      if (!getValue('bio'))
+        message = 'Please write a short bio.';
+      break;
+
+case 5:
+  if (!getValue('photographyType'))
+    message = 'Please select a photography type.';
+  break;
+ case 6:
+      if (!getValue('experience'))
+        message = 'Please select experience level.';
+      break;
+case 7:
+  if (!getValue('location'))
+    message = 'Please select a location.';
+  break;
     case 8:
-      const vid = getEl('videoFile')?.files[0];
-      if (!vid) message = 'Please upload a portfolio video.';
+      if (!getValue('portfolio'))
+        message = 'Enter your portfolio link.';
       break;
-    case 9: if (!getValue('stipend')) message = 'Please enter expected stipend.'; break;
-    case 10: 
-      if (!getValue('bankAccount')) message = 'Please enter Easypaisa number.'; 
-      else if (!getValue('accountName')) message = 'Please enter account name.';
+
+    case 9:
+      if (!getValue('pricing'))
+        message = 'Enter your pricing.';
+      break;
+
+    case 10:
+      if (!getValue('bankAccount'))
+        message = 'Enter your bank account number.';
+      break;
+    case 11:
+      if (!getValue('accountTitle'))
+        message = 'Enter your account title.';
       break;
   }
-  if (message) { showToast(message, "warning"); return false; }
+
+  if (message) {
+    showToast(message, "warning");
+    return false;
+  }
   return true;
 }
-
 async function nextStep(step) {
   if (!validateStep(step)) return;
   await saveData(step);
@@ -83,8 +139,6 @@ async function nextStep(step) {
 function prevStep(step) { if (step > 1) { currentStep = step - 1; showStep(currentStep); } }
 
 async function createProfile() {
-  sessionStorage.setItem('profileSuccess', true);
-  console.log(sessionStorage.getItem('profileSuccess'));
   if (!validateStep(10)) return;
   await saveData(10);
 
@@ -108,13 +162,15 @@ async function createProfile() {
 
   // Clean up profileData and append
   formData.append('name', profileData.name);
-  formData.append('headline', profileData.headline);
   formData.append('department', profileData.department);
-  formData.append('skills', JSON.stringify(profileData.skills));
-  formData.append('experience', profileData.experience);
-  formData.append('stipend', profileData.stipend);
-  formData.append('bank_account', profileData.bank_account);
-  formData.append('account_name', profileData.account_name);
+formData.append('bio', profileData.bio);
+formData.append('photography_types', profileData.photography_types);
+formData.append('experience_level', profileData.experience);
+formData.append('location', profileData.location);
+formData.append('portfolio_link', profileData.portfolio);
+formData.append('pricing', profileData.pricing);
+formData.append('bank_account', profileData.bank_account);
+formData.append('account_title', profileData.account_title);
   formData.append('is_completed', 'true'); // MARK AS COMPLETED
 
   // Append profile picture
@@ -134,41 +190,7 @@ async function createProfile() {
     if (response.ok) {
       const updatedProfile = await response.json();
 
-      // --- UPLOAD PORTFOLIO MEDIA ---
-      // Upload Images
-      const imageFiles = getEl('bestWorkImages')?.files || [];
-      for (let i = 0; i < imageFiles.length; i++) {
-        const imgFormData = new FormData();
-        imgFormData.append('file', imageFiles[i]);
-        imgFormData.append('media_type', 'image');
-        imgFormData.append('profile_email', userEmail);
-
-        await fetch(`${window.CONFIG.API_BASE_URL}/api/portfolio-media/`, {
-          method: "POST",
-          headers: { "Authorization": "Bearer " + token },
-          body: imgFormData
-        });
-      }
-
-      // Upload Video
-      const videoFile = getEl('videoFile')?.files[0];
-      if (videoFile) {
-        const vidFormData = new FormData();
-        vidFormData.append('file', videoFile);
-        vidFormData.append('media_type', 'video');
-        vidFormData.append('profile_email', userEmail);
-
-        await fetch(`${window.CONFIG.API_BASE_URL}/api/portfolio-media/`, {
-          method: "POST",
-          headers: { "Authorization": "Bearer " + token },
-          body: vidFormData
-        });
-      }
-
-      // showToast("Profile and Portfolio Updated Successfully!", "success");
-      // console.log("Profile and Portfolio Updated Successfully!");
-      // sessionStorage.setItem('profileSuccess', true);
-      // console.log(sessionStorage.getItem('profileSuccess'));
+      sessionStorage.setItem('profileSuccess', true);
       window.location.href = "freelancerDashboard.html";
 
     } else {

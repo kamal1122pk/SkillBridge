@@ -3,9 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Freelancer Projects</title>
+  <title>LensLink - My Shoots</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <script src="config.js"></script>
+  <script src="authGuard.js"></script>
   <link rel="stylesheet" href="notifications.css">
   <script src="notifications.js"></script>
 
@@ -316,16 +317,16 @@
 
   <!-- NAVBAR -->
   <nav class="navbar">
-    <div class="logo">SkillBridge</div>
+    <div class="logo">LensLink<i class="fa-solid fa-camera-retro"></i></div>
     <ul class="nav-links">
       <li onclick="goDashboard()">Dashboard</li>
       <li id="messagesNav" onclick="goMessage()">Messages</li>
-      <li id="projectNav" onclick="goProjects()">Projects</li>
+      <li id="projectNav" onclick="goProjects()">Shoots</li>
       <li><a href="browseJob.html" style="text-decoration:none; color:inherit;">Browse Jobs</a></li>
 
     </ul>
     <!-- Username filled by JS -->
-    <div class="user-name" id="navUserName">Freelancer</div>
+    <div class="user-name" id="navUserName">Photographer</div>
   </nav>
 
 
@@ -334,7 +335,7 @@
   <div class="container">
 
     <h1 class="page-title">
-      Your Projects <i class="fa-solid fa-briefcase" style="color:#38bdf8"></i>
+      Your Shoots <i class="fa-solid fa-camera" style="color:#38bdf8"></i>
     </h1>
 
     <div id="projectsContainer" class="projects-grid"></div>
@@ -355,10 +356,10 @@
   <!-- SUBMIT WORK MODAL -->
   <div class="submit-modal" id="submitWorkModal">
     <div class="submit-box">
-      <h3>Submit Your Work</h3>
+      <h3>Submit</h3>
       <label>Description</label>
       <textarea id="submitText" placeholder="Describe what you delivered..."></textarea>
-      <label>Link (Google Drive, GitHub, Figma, etc.)</label>
+      <label>Link (Google Drive, GitHub, etc.)</label>
       <input type="url" id="submitLink" placeholder="https://...">
       <div style="display:flex; gap:10px;">
         <button onclick="submitWork()"

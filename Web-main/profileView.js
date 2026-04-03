@@ -14,12 +14,17 @@ async function initialize() {
       const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/profiles/me/`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
+      if (!response.ok) {
+        window.location.href = "login.html";
+        return;
+      }
       profile = await response.json();
       loadProfile();
       return;
     } catch (err) {
-      console.error(err);
-      window.location.href = "login.html";
+      console.error("Initialization error:", err);
+      // Only redirect if it's genuinely an auth or vital fetch error
+      // This avoids redirecting on UI crashes inside loadProfile()
       return;
     }
   }
@@ -48,11 +53,9 @@ async function initialize() {
 
 function loadProfile() {
 
-  document.getElementById("nameText").innerText =
-    profile?.name || "Unnamed Freelancer";
+document.getElementById("nameText").innerText =
+  profile?.name || "Unnamed Photographer";
 
-  document.getElementById("headlineText").innerText =
-    profile?.headline || "";
 
   // Reputation stats
   const reputationEl = document.getElementById("reputationStats");
@@ -77,23 +80,31 @@ function loadProfile() {
     `;
   }
 
-  console.log(profile?.department);
-  document.getElementById("departmentSelect").innerText =
-    profile?.department || "No department added yet.";
 
-  document.getElementById("experienceText").innerText =
-    profile?.experience || "No experience added.";
+/* ===== BASIC INFO ===== */
 
-  document.getElementById("stipendText").innerText =
-    profile?.stipend ? `Rs ${profile.stipend}` : "Not specified.";
+document.getElementById("departmentText").innerText =
+  profile?.department || "Not specified";
 
-  document.getElementById("bankText").innerText =
-    profile?.bank_account || "Not provided.";
+document.getElementById("bioText").innerText =
+  profile?.bio || "No bio added";
 
-  const accNameEl = document.getElementById("accountName");
-  if (accNameEl) {
-    accNameEl.innerText = profile?.account_name || "Not provided.";
-  }
+document.getElementById("experienceText").innerText =
+  profile?.experience_level || "Not specified";
+
+document.getElementById("locationText").innerText =
+  profile?.location || "Not specified";
+
+document.getElementById("portfolioText").innerHTML =
+  profile?.portfolio_link
+    ? `<a href="${profile.portfolio_link}" target="_blank" style="color:#38bdf8;">View Portfolio</a>`
+    : "No link added";
+
+document.getElementById("pricingText").innerText =
+  profile?.pricing ? `Rs ${profile.pricing}` : "Not specified";
+
+document.getElementById("bankText").innerText =
+  profile?.bank_account || "Not provided";
 
 
   /* ===== PROFILE PIC ===== */
@@ -104,56 +115,6 @@ function loadProfile() {
   }
 
 
-  /* ========= SKILLS ========= */
-  const skillsWrap = document.getElementById("skillsTags");
-  skillsWrap.innerHTML = "";
-
-  if (profile?.skills) {
-    const skillList = Array.isArray(profile.skills) ? profile.skills : profile.skills.split(",");
-    skillList.forEach(skill => {
-      const el = document.createElement("div");
-      el.className = "skill-tag";
-      el.innerText = skill.trim();
-      skillsWrap.appendChild(el);
-    });
-  } else {
-    skillsWrap.innerHTML =
-      '<span class="empty-state">No skills added.</span>';
-  }
-
-
-  /* ========= PORTFOLIO MEDIA ========= */
-  const imgGrid = document.getElementById("portfolioImages");
-  const vidGrid = document.getElementById("portfolioVideo");
-  imgGrid.innerHTML = "";
-  vidGrid.innerHTML = "";
-
-  if (profile?.portfolio_media && profile.portfolio_media.length) {
-    profile.portfolio_media.forEach(media => {
-      if (media.media_type === 'image') {
-        const card = document.createElement("div");
-        card.className = "work-card";
-        const img = document.createElement("img");
-        img.src = media.file;
-        card.appendChild(img);
-        imgGrid.appendChild(card);
-      } else if (media.media_type === 'video') {
-        const card = document.createElement("div");
-        card.className = "work-card";
-        const video = document.createElement("video");
-        video.src = media.file;
-        video.controls = true;
-        video.style.width = "100%";
-        video.style.height = "auto";
-        video.muted = true;
-        card.appendChild(video);
-        vidGrid.appendChild(card);
-      }
-    });
-  }
-
-  if (imgGrid.innerHTML === "") imgGrid.innerHTML = '<span class="empty-state">No portfolio images uploaded.</span>';
-  if (vidGrid.innerHTML === "") vidGrid.innerHTML = '<span class="empty-state">No portfolio video uploaded.</span>';
 
   // Check for completeness
   const loggedInEmail = localStorage.getItem("loggedInUser");
@@ -161,7 +122,13 @@ function loadProfile() {
   const viewingEmail = urlParams.get("email");
 
   const role = (profile.role || "").toLowerCase();
-  const isAppCompleted = role === 'freelancer' ? (!!profile.department || profile.is_completed) : (!!profile.project_type || profile.is_completed);
+  const isAppCompleted = 
+  profile?.name &&
+  profile?.bio &&
+  profile?.photography_types &&
+  profile?.experience_level &&
+  profile?.location &&
+  profile?.pricing;
 
 
   if (!isAppCompleted && (!viewingEmail || viewingEmail === loggedInEmail)) {
@@ -202,16 +169,32 @@ function toggleEdit() {
   document.getElementById("editBtn").classList.add("hidden");
   document.getElementById("saveBtn").classList.remove("hidden");
 
-  document.getElementById("nameText").innerHTML = `<input id="editName" value="${profile.name || ""}">`;
-  document.getElementById("headlineText").innerHTML = `<input id="editHeadline" value="${profile.headline || ""}">`;
-  document.getElementById("departmentSelect").innerHTML = `<input id="editDepartment" value="${profile.department || ""}">`;
-  document.getElementById("experienceText").innerHTML = `<textarea id="editExperience">${profile.experience || ""}</textarea>`;
-  document.getElementById("stipendText").innerHTML = `<input id="editStipend" value="${profile.stipend || ""}">`;
-  document.getElementById("bankText").innerHTML = `<input id="editBank" value="${profile.bank_account || ""}">`;
-  document.getElementById("accountName").innerHTML = `<input id="editAccountName" value="${profile.account_name || ""}">`;
+  document.getElementById("nameText").innerHTML =
+  `<input id="editName" value="${profile.name || ""}">`;
 
-  const skillsValue = Array.isArray(profile.skills) ? profile.skills.join(", ") : profile.skills;
-  document.getElementById("skillsTags").innerHTML = `<input id="editSkills" value="${skillsValue || ""}">`;
+document.getElementById("headlineText").innerHTML =
+  `<input id="editType" value="${profile.photography_types || ""}">`;
+
+document.getElementById("departmentText").innerHTML =
+  `<input id="editDepartment" value="${profile.department || ""}">`;
+
+document.getElementById("bioText").innerHTML =
+  `<textarea id="editBio">${profile.bio || ""}</textarea>`;
+
+document.getElementById("experienceText").innerHTML =
+  `<input id="editExperience" value="${profile.experience_level || ""}">`;
+
+document.getElementById("locationText").innerHTML =
+  `<input id="editLocation" value="${profile.location || ""}">`;
+
+document.getElementById("portfolioText").innerHTML =
+  `<input id="editPortfolio" value="${profile.portfolio_link || ""}">`;
+
+document.getElementById("pricingText").innerHTML =
+  `<input id="editPricing" value="${profile.pricing || ""}">`;
+
+document.getElementById("bankText").innerHTML =
+  `<input id="editBank" value="${profile.bank_account || ""}">`;
 
   // --- PHOTO EDITING LOGIC ---
   const picEl = document.getElementById("profilePic");
@@ -245,17 +228,16 @@ async function saveProfile() {
 
   const formData = new FormData();
   formData.append("name", document.getElementById("editName").value.trim());
-  formData.append("headline", document.getElementById("editHeadline").value.trim());
-  formData.append("department", document.getElementById("editDepartment").value.trim());
-  formData.append("experience", document.getElementById("editExperience").value.trim());
-  formData.append("stipend", document.getElementById("editStipend").value.trim());
-  formData.append("bank_account", document.getElementById("editBank").value.trim());
-  formData.append("account_name", document.getElementById("editAccountName").value.trim());
-
-  const skills = document.getElementById("editSkills").value.trim().split(",").map(s => s.trim()).filter(s => s !== "");
-  formData.append("skills", JSON.stringify(skills));
-
-  if (window.pendingProfilePic) {
+formData.append("photography_types", document.getElementById("editType").value.trim());
+formData.append("department", document.getElementById("editDepartment").value.trim());
+formData.append("bio", document.getElementById("editBio").value.trim());
+formData.append("experience_level", document.getElementById("editExperience").value.trim());
+formData.append("location", document.getElementById("editLocation").value.trim());
+formData.append("portfolio_link", document.getElementById("editPortfolio").value.trim());
+formData.append("pricing", document.getElementById("editPricing").value.trim());
+formData.append("bank_account", document.getElementById("editBank").value.trim());
+  
+if (window.pendingProfilePic) {
     formData.append("profile_pic", window.pendingProfilePic);
   }
 

@@ -92,31 +92,14 @@ function goBackToDetails() {
 
 // ── SCREENSHOT PREVIEW ────────────────────────────────────────────────────────
 
-function previewScreenshot(input) {
-    const wrap = document.getElementById("previewWrap");
-    const img = document.getElementById("screenshotPreview");
-
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = e => {
-            img.src = e.target.result;
-            wrap.style.display = "block";
-        };
-        reader.readAsDataURL(input.files[0]);
-    } else {
-        wrap.style.display = "none";
-        img.src = "";
-    }
-}
+// Removed previewScreenshot
 
 // ── SUBMIT PAYMENT PROOF ─────────────────────────────────────────────────────
 
 async function submitPayment() {
     const txn = document.getElementById("transactionId").value.trim();
-    const file = document.getElementById("screenshot").files[0];
 
     if (!txn) return showToast("Please enter a transaction ID.", "warning");
-    if (!file) return showToast("Please attach a payment screenshot.", "warning");
 
     const token = getToken();
     if (!token) return showToast("Please login first.", "error");
@@ -127,7 +110,6 @@ async function submitPayment() {
 
     const formData = new FormData();
     formData.append("transaction_id", txn);
-    formData.append("payment_proof", file);
 
     try {
         const res = await fetch(

@@ -9,12 +9,12 @@ function getToken() {
 }
 
 async function confirmOrder() {
-  const projectName = document.getElementById("projectName").value.trim();
-  const requirements = document.getElementById("requirements").value.trim();
-  const deadline     = document.getElementById("deadline").value;
-  const amount       = document.getElementById("amount").value.trim();
+  const shootType = document.getElementById("shootType").value.trim();
+  const location = document.getElementById("location").value.trim();
+  const deadline = document.getElementById("deadline").value;
+  const amount = document.getElementById("amount").value.trim();
 
-  if (!projectName || !requirements || !deadline || !amount) {
+  if (!shootType || !location || !deadline || !amount) {
     return showToast("Please fill all fields.", "warning");
   }
 
@@ -44,10 +44,10 @@ async function confirmOrder() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        project_name: projectName,
-        requirements,
-        deadline,
-        amount,
+        shoot_type: shootType,
+        location: location,
+        deadline: deadline,
+        amount: amount,
         freelancer_email_input: freelancer.email
       })
     });
@@ -55,7 +55,7 @@ async function confirmOrder() {
     if (!res.ok) throw await res.json();
 
     const data = await res.json();
-    createdOrderId     = data.order_id;
+    createdOrderId = data.order_id;
     createdOrderAmount = data.amount;
 
     // Persistent success state across reloads

@@ -1,40 +1,40 @@
 let cooldownInterval = null;
 
 // ── SESSION PERSISTENCE ───────────────────────────────────────────────────
-function saveState() {
-    sessionStorage.setItem("reg", JSON.stringify({
-        role: document.getElementById("role")?.value || "",
-        email: document.getElementById("email")?.value || "",
-        otp: document.getElementById("otp")?.value || "",
-        step: currentStep()
-    }));
-}
+// function saveState() {
+//     sessionStorage.setItem("reg", JSON.stringify({
+//         role: document.getElementById("role")?.value || "",
+//         email: document.getElementById("email")?.value || "",
+//         otp: document.getElementById("otp")?.value || "",
+//         step: currentStep()
+//     }));
+// }
 
-function restoreState() {
-    const raw = sessionStorage.getItem("reg");
-    if (!raw) return;
-    const s = JSON.parse(raw);
+// function restoreState() {
+//     const raw = sessionStorage.getItem("reg");
+//     if (!raw) return;
+//     const s = JSON.parse(raw);
 
-    if (s.role) { const el = document.getElementById("role"); if (el) el.value = s.role; }
-    if (s.email) { const el = document.getElementById("email"); if (el) el.value = s.email; }
-    if (s.otp) { const el = document.getElementById("otp"); if (el) el.value = s.otp; }
+//     if (s.role) { const el = document.getElementById("role"); if (el) el.value = s.role; }
+//     if (s.email) { const el = document.getElementById("email"); if (el) el.value = s.email; }
+//     if (s.otp) { const el = document.getElementById("otp"); if (el) el.value = s.otp; }
 
-    if (s.step && s.step !== 1) goToStep(s.step, false);
+//     if (s.step && s.step !== 1) goToStep(s.step, false);
 
-    // Restore cooldown if still running
-    const end = parseInt(sessionStorage.getItem("reg_cd"));
-    if (end) {
-        const left = Math.ceil((end - Date.now()) / 1000);
-        if (left > 0) startCooldown(left);
-        else sessionStorage.removeItem("reg_cd");
-    }
+//     // Restore cooldown if still running
+//     const end = parseInt(sessionStorage.getItem("reg_cd"));
+//     if (end) {
+//         const left = Math.ceil((end - Date.now()) / 1000);
+//         if (left > 0) startCooldown(left);
+//         else sessionStorage.removeItem("reg_cd");
+//     }
 
-    // Update OTP subtext
-    if (s.email) {
-        const sub = document.getElementById("otpSubtext");
-        if (sub) sub.textContent = `We sent a code to ${s.email}`;
-    }
-}
+//     // Update OTP subtext
+//     if (s.email) {
+//         const sub = document.getElementById("otpSubtext");
+//         if (sub) sub.textContent = `We sent a code to ${s.email}`;
+//     }
+// }
 
 function currentStep() {
     for (let i = 1; i <= 3; i++) {

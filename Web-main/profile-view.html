@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile | SkillBridge</title>
+  <title>Profile | LensLink</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <script src="config.js"></script>
   <link rel="stylesheet" href="notifications.css">
@@ -436,11 +436,11 @@
 <body>
 
   <nav class="navbar">
-    <div class="logo" onclick="window.location.href='index.html'">SkillBridge</div>
+    <div class="logo" onclick="window.location.href='index.html'">LensLink<i class="fa-solid fa-camera-retro"></i></div>
     <ul class="nav-links">
       <li onclick="goDashboard()">Dashboard</li>
       <li onclick="goMessage()">Messages</li>
-      <li onclick="goProjects()">Projects</li>
+      <li onclick="goProjects()">Shoots</li>
       <li><a href="browseJob.html" style="text-decoration:none; color:inherit;">Browse Jobs</a></li>
     </ul>
     <button class="btn logout-btn" onclick="logout()">Logout</button>
@@ -450,7 +450,6 @@
     <img id="profilePic" class="profile-pic" src="https://i.pravatar.cc/180" />
     <div class="profile-info">
       <h2 id="nameText">Loading...</h2>
-      <p id="headlineText"></p>
       <div id="reputationStats" style="margin-top:8px; font-size:1rem;"></div>
     </div>
     <div class="header-actions">
@@ -466,42 +465,43 @@
   </div>
 
   <main class="container">
-    <div class="section">
-      <h3>Department</h3>
-      <p id="departmentSelect" class="empty-state">No department specified.</p>
-    </div>
 
-    <div class="section">
-      <h3>Skills</h3>
-      <div class="skills" id="skillsTags"></div>
-    </div>
+  <div class="section">
+    <h3>Department</h3>
+    <p id="departmentText" class="empty-state"></p>
+  </div>
 
-    <div class="section">
-      <h3>Experience</h3>
-      <p id="experienceText" class="empty-state">No experience details added.</p>
-    </div>
+  <div class="section">
+    <h3>Bio</h3>
+    <p id="bioText" class="empty-state"></p>
+  </div>
 
-    <div class="section">
-      <h3>Stipend Expectations</h3>
-      <p id="stipendText" class="empty-state">Not specified.</p>
-    </div>
+  <div class="section">
+    <h3>Experience Level</h3>
+    <p id="experienceText" class="empty-state"></p>
+  </div>
 
-    <div class="section">
-      <h3>Easypaisa Number</h3>
-      <p id="bankText" class="empty-state">Not provided.</p>
-    </div>
+  <div class="section">
+    <h3>Location</h3>
+    <p id="locationText" class="empty-state"></p>
+  </div>
 
-    <div class="section">
-      <h3>Account Name</h3>
-      <p id="accountName" class="empty-state">Not provided.</p>
-    </div>
+  <div class="section">
+    <h3>Portfolio</h3>
+    <p id="portfolioText" class="empty-state"></p>
+  </div>
 
-    <div class="section">
-      <h3>Portfolio Media</h3>
-      <div id="portfolioVideo" class="portfolio-grid"></div>
-      <div id="portfolioImages" class="portfolio-grid" style="margin-top: 25px;"></div>
-    </div>
-  </main>
+  <div class="section">
+    <h3>Pricing</h3>
+    <p id="pricingText" class="empty-state"></p>
+  </div>
+
+  <div class="section">
+    <h3>Bank Account</h3>
+    <p id="bankText" class="empty-state"></p>
+  </div>
+</main>
+
 
   <script src="profileView.js"></script>
 </body>

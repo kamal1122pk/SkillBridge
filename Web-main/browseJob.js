@@ -40,15 +40,15 @@ async function fetchJobs(page = 1, search = "") {
             hasNextPage = !!data.next;
             
             const apiJobs = data.results.map(job => ({
-                id: job.id,
-                title: job.title,
-                skills: Array.isArray(job.skills_required) ? job.skills_required.join(", ") : (job.skills_required || "N/A"),
-                deadline: job.deadline,
-                stipend: job.stipend,
-                client: job.client_name || "Client",
-                client_email: job.client_email,
-                profile: job.client_profile_pic || "https://i.pravatar.cc/40"
-            }));
+    id: job.id,
+    title: job.title,
+    location: job.location || "N/A",   // ✅ NEW
+    deadline: job.deadline,
+    stipend: job.stipend,
+    client: job.client_name || "Client",
+    client_email: job.client_email,
+    profile: job.client_profile_pic || "https://i.pravatar.cc/40"
+}));
 
             if (page === 1) {
                 allJobs = apiJobs;
@@ -76,23 +76,28 @@ function renderJobs() {
         let card = document.createElement("div");
         card.className = "job-card";
         const isApplied = appliedJobIds.has(job.id);
-
+const formattedDate = job.deadline 
+  ? new Date(job.deadline).toLocaleDateString() 
+  : "N/A";
         card.innerHTML = `
-        <div class="job-header">
-            <img src="${job.profile || 'https://i.pravatar.cc/40'}">
-            <strong>${job.client || "Client"}</strong>
-        </div>
-        <div class="job-title">${job.title}</div>
-        <div class="skills">Skills: ${job.skills}</div>
-        <div class="deadline">Deadline: ${job.deadline}</div>
-        <div>Stipend: Rs ${job.stipend}</div>
-        <div class="buttons">
-            <button class="apply" ${isApplied ? 'disabled style="background:#22c55e; color:white;"' : ''}>
-                ${isApplied ? 'Applied' : 'Apply'}
-            </button>
-            <button class="message">Message</button>
-        </div>
-        `;
+<div class="job-header">
+    <img src="${job.profile || 'https://i.pravatar.cc/40'}">
+    <strong>${job.client || "Client"}</strong>
+</div>
+
+<div class="job-title">${job.title}</div>
+
+<div class="job-info">Location: ${job.location}</div>
+<div class="job-info">Event Date: ${formattedDate}</div>
+<div class="job-info">Budget: Rs ${Number(job.stipend || 0).toLocaleString()}</div>
+
+<div class="buttons">
+    <button class="apply" ${isApplied ? 'disabled style="background:#22c55e; color:white;"' : ''}>
+        ${isApplied ? 'Applied' : 'Apply'}
+    </button>
+    <button class="message">Message</button>
+</div>
+`;
 
         const applyBtn = card.querySelector(".apply");
         const msgBtn = card.querySelector(".message");
@@ -122,22 +127,6 @@ async function loadMore() {
 
     btn.innerText = originalText;
     btn.disabled = false;
-}
-
-async function searchJobs() {
-    // This is the search function triggered by oninput
-    const searchInput = document.getElementById("searchInput");
-    if (!searchInput) return;
-
-    currentSearch = searchInput.value.trim();
-    currentPage = 1;
-    
-    if (window.searchTimeout) clearTimeout(window.searchTimeout);
-
-    window.searchTimeout = setTimeout(async () => {
-        container.innerHTML = "<p style='text-align:center;'>Searching...</p>";
-        await fetchJobs(currentPage, currentSearch);
-    }, 400);
 }
 
 async function displayJobs() {
@@ -192,7 +181,7 @@ function showMessageCard(job) {
     card.innerHTML = `
         <div class="island-title">Apply for ${job.title}</div>
         <div class="island-subtitle">to <b>${job.client}</b></div>
-        <textarea id="messageInput" class="island-textarea" placeholder="Briefly explain why you're a good fit for this project..."></textarea>
+        <textarea id="messageInput" class="island-textarea" placeholder="Briefly explain why you're a good fit"></textarea>
         <div class="island-actions">
             <button id="cancelBtn" class="btn-island btn-cancel">Cancel</button>
             <button id="sendBtn" class="btn-island btn-send">Send Application</button>

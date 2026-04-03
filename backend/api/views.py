@@ -40,7 +40,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     lookup_value_regex = '[^/]+'
     permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter]
-    search_fields = ['name', 'headline', 'skills', 'department', 'bio', 'photography_types', 'location']
+    search_fields = ['name', 'headline', 'skills', 'department', 'bio', 'photography_types', 'location', 'company_name', 'project_type']
     pagination_class = StandardResultsSetPagination
 
     @action(detail=False, methods=['get', 'patch'])
@@ -72,16 +72,20 @@ class ProfileViewSet(viewsets.ModelViewSet):
         if role:
             queryset = queryset.filter(role=role)
         
-        # Only filter out incomplete profiles when LISTING talents (freelancers)
+        # Only filter out incomplete profiles when LISTING photographers (freelancers)
         if self.action == 'list' and role == 'freelancer':
             queryset = queryset.filter(
-            is_completed=True,
-            pricing__isnull=False,
-            bio__isnull=False,
-            photography_types__isnull=False
+                is_completed=True,
+                pricing__isnull=False,
+                bio__isnull=False,
+                photography_types__isnull=False,
+                location__isnull=False,
+                experience_level__isnull=False
             ).exclude(
                 bio="",
-                photography_types=""
+                photography_types="",
+                location="",
+                experience_level=""
             )
             
         return queryset
@@ -118,7 +122,7 @@ class JobViewSet(viewsets.ModelViewSet):
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter]
-    search_fields = ['title', 'description', 'skills_required']
+    search_fields = ['title', 'description', 'skills_required', 'location']
     pagination_class = JobPagination
 
     def perform_create(self, serializer):
@@ -203,8 +207,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         transaction_id = request.data.get('transaction_id')
         payment_proof = request.FILES.get('payment_proof')
 
-        if not transaction_id or not payment_proof:
-            return Response({'error': 'Transaction ID and payment proof image are required.'}, status=status.HTTP_400_BAD_REQUEST)
+        if not transaction_id:
+            return Response({'error': 'Transaction ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
         order.transaction_id = transaction_id
         order.payment_proof = payment_proof

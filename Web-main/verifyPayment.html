@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Payment</title>
+    <title>LensLink - Verify Payment</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <script src="config.js"></script>
     <link rel="stylesheet" href="notifications.css">
@@ -472,13 +472,6 @@
 
         <label>Transaction ID</label>
         <input type="text" id="transactionId" placeholder="Enter your transaction / reference ID">
-
-        <label>Payment Screenshot</label>
-        <input type="file" id="screenshot" accept="image/*" onchange="previewScreenshot(this)">
-
-        <div id="previewWrap">
-            <img id="screenshotPreview" src="" alt="Screenshot preview">
-        </div>
 
         <button class="btn btn-primary" id="submitBtn" onclick="submitPayment()">
             <i class="fas fa-paper-plane" style="margin-right:8px;"></i>Submit Verification

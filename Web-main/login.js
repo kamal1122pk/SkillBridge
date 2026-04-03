@@ -1,3 +1,14 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+        const role = localStorage.getItem("userRole");
+        const isStaff = localStorage.getItem("isStaff") === "true";
+        if (isStaff) window.location.href = "adminDashboard.html";
+        else if (role === "freelancer") window.location.href = "freelancerDashboard.html";
+        else window.location.href = "clientDashboard.html";
+    }
+});
+
 function clearError() {
   document.getElementById("loginEmail").classList.remove("input-error");
   document.getElementById("loginPassword").classList.remove("input-error");

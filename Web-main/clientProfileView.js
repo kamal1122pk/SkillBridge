@@ -46,7 +46,7 @@ async function loadProfile(){
                 <div class="incomplete-alert-icon">⚡</div>
                 <div class="incomplete-alert-text">
                   Your profile is incomplete! 
-                  <span>Complete it now to unlock all features like job postings and talent reach.</span>
+                  <span>Complete it now to unlock all features</span>
                 </div>
               </div>
               <button class="complete-now-btn" onclick="redirectToCompletion()">Complete Now</button>
@@ -92,7 +92,7 @@ function editProfile() {
     `<input id="editCompanyName" value="${data.company_name || ""}" placeholder="Company Name">`;
 
   document.getElementById("projectType").innerHTML =
-    `<input id="editProjectType" value="${data.project_type || ""}" placeholder="e.g. E-commerce, AI, Design">`;
+    `<input id="editProjectType" value="${data.project_type || ""}" placeholder="e.g. wedding, Product">`;
 
   document.getElementById("budgetRange").innerHTML =
     `<input id="editBudgetRange" value="${data.budget_range || ""}" placeholder="e.g. 50k - 100k">`;

@@ -49,6 +49,7 @@ class Job(models.Model):
     
     client = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='jobs_posted', null=True, blank=True)
     title = models.CharField(max_length=255)
+    location = models.CharField(max_length=255, null=True, blank=True)
     skills_required = models.JSONField(default=list)
     stipend = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     deadline = models.DateField(null=True, blank=True)
@@ -76,6 +77,8 @@ class Order(models.Model):
     client = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='orders_placed', null=True, blank=True)
     freelancer = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='orders_received', null=True, blank=True)
     project_name = models.CharField(max_length=255, null=True, blank=True)
+    shoot_type = models.CharField(max_length=100, null=True, blank=True)
+    location = models.CharField(max_length=255, null=True, blank=True)
     requirements = models.TextField(null=True, blank=True)
     deadline = models.DateField(null=True, blank=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

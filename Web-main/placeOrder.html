@@ -271,21 +271,22 @@
 
   <!-- ORDER FORM -->
   <div class="card" id="orderCard">
-    <h2>Place Order</h2>
+    <h2>Book Photographer</h2>
 
-    <label>Project Name</label>
-    <input type="text" id="projectName" placeholder="e.g. Logo Design">
+    <label>Photography Type</label>
+      <input type="text" id="shootType" placeholder="e.g. Wedding, Birthday, Portrait">
+      </select>
 
-    <label>Project Description</label>
-    <textarea id="requirements" placeholder="Describe what you need..."></textarea>
+      <label>Shoot Location</label>
+      <input type="text" id="location" placeholder="e.g. Hyderabad, MUET">
 
-    <label>Deadline</label>
-    <input type="date" id="deadline">
+      <label>Shoot Date</label>
+      <input type="date" id="deadline">
 
-    <label>Agreed Stipend (PKR)</label>
-    <input type="number" id="amount" placeholder="e.g. 5000">
+      <label>Budget (PKR)</label>
+      <input type="number" id="amount" placeholder="e.g. 5000">
 
-    <button class="submit-btn" id="confirmBtn" onclick="confirmOrder()">Confirm Order</button>
+    <button class="submit-btn" id="confirmBtn" onclick="confirmOrder()">Confirm Booking</button>
   </div>
 
   <!-- SUCCESS ISLAND -->

@@ -41,7 +41,7 @@ async function submitWork() {
     if (response.ok) {
       closeSubmitModal();
       showToast("Work submitted! Waiting for client approval.", "success");
-      renderProjects();
+      fetchProjects(1);
     } else {
       const err = await response.json();
       showToast("Error: " + JSON.stringify(err), "error");
@@ -72,7 +72,7 @@ async function fetchProjects(page = 1) {
       headers: { "Authorization": `Bearer ${token}` }
     });
     const data = await response.json();
-    
+
     hasNextPage = !!data.next;
     const orders = data.results || [];
 
@@ -133,11 +133,11 @@ function renderProjectsList() {
     const card = document.createElement("div");
     card.className = "project-card";
     card.innerHTML = `
-      <h3>${project.project_name}</h3>
+      <h3>${project.shoot_type}</h3>
       <div class="project-info">Client: ${project.client_name}</div>
       <div class="project-info">Order ID: ${project.order_id}</div>
       <div class="project-info">Amount: PKR ${project.amount}</div>
-      <div class="project-info">Deadline: ${project.deadline}</div>
+      <div class="project-info">Shoot Date: ${project.deadline}</div>
       <div class="status">${project.status === "Revision Requested" ? '<span style="color:#facc15;">🔄 Revision Requested</span>' : getStatusLabel(project.status)}</div>
       <div style="display:flex; gap:10px; margin-top:10px;">
         ${(project.status === "Active" || project.status === "Revision Requested") ? `<button class="complete-btn" onclick="openSubmitModal('${project.order_id}')">📦 Submit Work</button>` : ''}
@@ -150,11 +150,11 @@ function renderProjectsList() {
   };
 
   function getStatusLabel(status) {
-      if (status === "Work Submitted") return '<span style="color:#38bdf8;">⏳ Work Submitted — Awaiting Approval</span>';
-      if (status === "Disputed") return '<span style="color:#ef4444;">⚠️ Disputed — Under Admin Review</span>';
-      if (["Confirmation Pending", "Payment Requested"].includes(status)) return `<span style="color:#facc15;">⏳ ${status}</span>`;
-      if (["Completed", "Payment Rejected", "Cancelled"].includes(status)) return `<span style="color:${status === 'Completed' ? '#22c55e' : '#ef4444'};">${status === 'Completed' ? '✅' : '❌'} ${status}</span>`;
-      return status;
+    if (status === "Work Submitted") return '<span style="color:#38bdf8;">⏳ Work Submitted — Awaiting Approval</span>';
+    if (status === "Disputed") return '<span style="color:#ef4444;">⚠️ Disputed — Under Admin Review</span>';
+    if (["Confirmation Pending", "Payment Requested"].includes(status)) return `<span style="color:#facc15;">⏳ ${status}</span>`;
+    if (["Completed", "Payment Rejected", "Cancelled"].includes(status)) return `<span style="color:${status === 'Completed' ? '#22c55e' : '#ef4444'};">${status === 'Completed' ? '✅' : '❌'} ${status}</span>`;
+    return status;
   }
 
   // Render in groups
