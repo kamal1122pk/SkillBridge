@@ -358,12 +358,13 @@ class ApplicationSerializer(serializers.ModelSerializer):
     freelancer_name = serializers.CharField(source='freelancer.name', read_only=True)
     freelancer_email = serializers.EmailField(source='freelancer.user.email', read_only=True)
     freelancer_email_input = serializers.EmailField(write_only=True, required=False)
+    freelancer_portfolio = serializers.URLField(source='freelancer.portfolio_link', read_only=True)
     job_title = serializers.CharField(source='job.title', read_only=True)
 
 
     class Meta:
         model = Application
-        fields = ['id', 'job', 'job_title', 'freelancer', 'freelancer_name', 'freelancer_email', 'freelancer_email_input', 'cover_letter', 'status', 'applied_at']
+        fields = ['id', 'job', 'job_title', 'freelancer', 'freelancer_name', 'freelancer_email', 'freelancer_email_input', 'freelancer_portfolio', 'cover_letter', 'status', 'applied_at']
 
         extra_kwargs = {
             'freelancer': {'read_only': True}

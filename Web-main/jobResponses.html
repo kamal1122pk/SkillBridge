@@ -82,6 +82,7 @@ async function loadResponses() {
               </div>
               <p>${r.cover_letter}</p>
               <button class="message-btn" onclick="messageFreelancer('${r.freelancer_email}', '${r.freelancer_name}')">Message</button>
+              <button class="message-btn" style="background:#6366f1; margin-left:10px;" onclick="viewPortfolio('${r.freelancer_portfolio}')">View Portfolio</button>
             `;
             container.appendChild(div);
           });
@@ -103,6 +104,33 @@ function messageFreelancer(email, name) {
         avatar: "https://i.pravatar.cc/150"
     }));
     window.location.href = "chat.html";
+}
+
+function viewPortfolio(link) {
+    if (!link || link === "null" || link === "undefined" || link.trim() === "") {
+        if (typeof showToast === "function") {
+            showToast("Portfolio does not exist.", "error");
+        } else {
+            alert("Portfolio does not exist.");
+        }
+        return;
+    }
+    
+    let formattedLink = link.trim();
+    if (!/^https?:\/\//i.test(formattedLink)) {
+        formattedLink = 'https://' + formattedLink;
+    }
+    
+    try {
+        new URL(formattedLink);
+        window.open(formattedLink, '_blank');
+    } catch (e) {
+        if (typeof showToast === "function") {
+            showToast("Invalid portfolio link.", "error");
+        } else {
+            alert("Invalid portfolio link.");
+        }
+    }
 }
 
 
