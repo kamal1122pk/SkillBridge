@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="notifications.css">
 <script src="notifications.js"></script>
 <style>
-/* ===============================do
+/* ===============================
    GLOBAL RESET
 ================================ */
 *{
@@ -55,20 +55,21 @@ section{
   top:0;
   left:0;
   width:100%;
+  height:70px;     
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:18px 60px;
+  padding:0 60px;       
   background:rgba(2,6,23,0.95);
   border-bottom:1px solid #1e293b;
   z-index:1000;
 }
+  .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #38bdf8;
+    }
 
-.logo{
-  font-size:22px;
-  font-weight:700;
-  color:#38bdf8;
-}
 
 .login-btn{
   padding:10px 22px;
@@ -95,59 +96,91 @@ section{
 
 .hero h1{
   font-size:5rem;
-  letter-spacing:2px;
+  letter-spacing:1px;
   text-shadow:0 0 12px rgba(56,189,248,0.6);
 }
 
 .mainPara{
-  font-size:1.5rem;
+  font-size:1.4rem;
   color:#acb1b7;
   margin-top:15px;
 }
 
-.hero-cards{
+.hero-action{
+  margin-top:50px;
   display:flex;
   justify-content:center;
-  gap:30px;
-  margin-top:60px;
-  flex-wrap:wrap;
 }
 
-/* ===============================
-   CARDS
-================================ */
-.card{
-  background:rgba(255,255,255,0.08);
-  border:2px solid #38bdf8;
-  border-radius:15px;
-  width:260px;
-  padding:25px;
+/* Dropdown container */
+/* Dropdown container */
+.dropdown{
+  position:relative;
+}
+
+/* Button */
+.get-started-btn{
+  padding:14px 35px;
+  font-size:1.1rem;
+  font-weight:600;
+  border:none;
+  border-radius:30px;
   cursor:pointer;
-  transition:0.4s;
-  box-shadow:0 0 25px rgba(56,189,248,0.35);
-  backdrop-filter:blur(6px);
+  background:linear-gradient(90deg,#38bdf8,#6366f1);
+  color:white;
+  transition:0.3s;
 }
 
-.card:hover{
-  transform:translateY(-10px) scale(1.03);
-  background:#38bdf8;
-  color:black;
+.get-started-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px rgba(56,189,248,0.5);
 }
 
-.card h2{
-  font-size:1.5rem;
+/* Dropdown menu */
+.dropdown-menu{
+  position:absolute;
+  top:120%;
+  left:50%;
+  transform:translateX(-50%) translateY(10px);
+  background:rgba(15,23,42,0.95);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(56,189,248,0.3);
+  border-radius:16px;
+  padding:10px;
+  width:250px;
+
+  opacity:0;
+  visibility:hidden;
+  transition:0.3s ease;
+  box-shadow:0 20px 40px rgba(0,0,0,0.5);
 }
 
-.card p{
-  font-size:1rem;
-  margin-top:10px;
-  color:#acb1b7;
+/* Show with animation */
+.dropdown:hover .dropdown-menu{
+  opacity:1;
+  visibility:visible;
+  transform:translateX(-50%) translateY(0);
 }
 
-.card:hover p{
-  color:black;
+/* Items */
+.dropdown-menu div{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.25s;
+  color:#cbd5f5;
+  font-size:0.95rem;
 }
 
+/* Hover effect */
+.dropdown-menu div:hover{
+  background:rgba(56,189,248,0.15);
+  color:#38bdf8;
+  transform:translateX(5px);
+}
 /* ===============================
    HOW SECTION
 ================================ */
@@ -165,7 +198,9 @@ section{
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
-
+.how-section p{
+  font-size: small;
+}
 .subtitle{
   color:#94a3b8;
   margin-bottom:40px;
@@ -326,27 +361,28 @@ section{
 <body>
 
 <nav class="navbar">
-  <div class="logo">LensLink</div>
+  <div class="logo">
+  LensLink<i class="fa-solid fa-camera-retro"></i>
+</div>
   <div id="authContainer">
     <button class="login-btn" onclick="goToLogin()">Login</button>
   </div>
 </nav>
 
 <section class="hero">
-  <h1>LensLink</h1>
-  <p class="mainPara">Hire talent or showcase your skills inside your campus</p>
+  <h1>LensLink<i class="fa-solid fa-camera-retro"></i></h1>
+  <p class="mainPara">Discover Student Photographers Near You</p>
 
-  <div class="hero-cards">
-    <div class="card" onclick="goToLogin('client')">
-      <h2>Hire Talent</h2>
-      <p>Find skilled students for your work</p>
-    </div>
+<div class="hero-action">
+  <div class="dropdown">
+    <button class="get-started-btn">Get Started</button>
 
-    <div class="card" onclick="goToLogin('freelancer')">
-      <h2>Offer My Skills</h2>
-      <p>Show your talent & get hired</p>
+    <div class="dropdown-menu">
+      <div onclick="goToLogin('client')">Hire Photographer</div>
+      <div onclick="goToLogin('freelancer')">Join as Photographer</div>
     </div>
   </div>
+</div>
 </section>
 
 <section class="how-section">
@@ -357,19 +393,19 @@ section{
     <div class="work-card">
       <div class="icon blue"><i class="fa-solid fa-magnifying-glass" style="color: rgb(177, 151, 252);"></i></div>
       <h3>Browse</h3>
-      <p>Explore talented students across tech and creative services.</p>
+<p>Explore student photographers and view their portfolios.</p>
     </div>
 
     <div class="work-card">
       <div class="icon purple"><i class="fa-solid fa-comment-dots" style="color: rgb(116, 192, 252);"></i></div>
       <h3>Connect</h3>
-      <p>Chat directly with freelancers to discuss requirements.</p>
+<p>Chat, discuss shoot details, and finalize pricing.</p>
     </div>
 
     <div class="work-card">
-      <div class="icon orange"><i class="fa-solid fa-handshake-simple" style="color: rgb(255, 212, 59);"></i></div>
-      <h3>Collaborate</h3>
-      <p>Work together and get quality results securely.</p>
+      <div class="icon orange"><i class="fa-solid fa-camera" style="color: rgb(255, 212, 59);"></i></div>
+      <h3>Book & Shoot</h3>
+<p>Hire photographers and capture your moments.</p>
     </div>
   </div>
 </section>
@@ -389,12 +425,12 @@ section{
   <div class="footer-container">
     <div>
       <h3>LensLink</h3>
-      <p>Connecting university talent with real opportunities.</p>
+      <p>Connecting students with campus photographers for events and projects.</p>
       <p>MUET, Jamshoro, Sindh</p>
     </div>
     <div>
       <h4>Platform</h4>
-      <p>Browse Talent</p>
+      <p>Browse Photographers</p>
       <p>How It Works</p>
       <p>Categories</p>
     </div>
@@ -410,6 +446,15 @@ section{
 </footer>
 
 <script>
+  function toggleOptions(){
+  const options = document.getElementById("roleOptions");
+
+  if(options.style.display === "flex"){
+    options.style.display = "none";
+  }else{
+    options.style.display = "flex";
+  }
+}
 function goToLogin(role){
   if(role){
     window.location.href = `login.html?role=${role}`;
@@ -418,10 +463,19 @@ function goToLogin(role){
   }
 }
 
-const reviews=[
-{text:"I found an amazing developer within 2 days. The process was smooth and secure.",author:"— Rehan Ali"},
-{text:"As a student entrepreneur, this platform helped me launch my startup affordably.",author:"— Ayesha Khan"},
-{text:"The collaboration tools and payment verification system are impressive! ",author:"— Hamza Ahmed"}
+const reviews = [
+{
+text:"I booked a photographer for my event within hours. Super smooth experience!",
+author:"— Sara Khan"
+},
+{
+text:"Got amazing photos for my university project. Highly recommended!",
+author:"— Ali Raza"
+},
+{
+text:"As a student photographer, I started getting clients easily through LensLink.",
+author:"— Ahmed Hassan"
+}
 ];
 
 let index=0;
@@ -439,7 +493,7 @@ setInterval(()=>{
   const role = localStorage.getItem("userRole");
 
   if (token) {
-    const dashboardPage = role === "freelancer" ? "freelancerDashboard.html" : "clientDashboard.html";
+    const dashboardPage = role === "freelancer" ? "photographerDashboard.html" : "clientDashboard.html";
     authContainer.innerHTML = `
       <div style="display: flex; gap: 15px;">
         <button class="login-btn" onclick="window.location.href='${dashboardPage}'">Dashboard</button>

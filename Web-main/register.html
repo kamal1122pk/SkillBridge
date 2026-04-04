@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LensLink - Join the Community</title>
+  <title>LensLink-Join</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -62,7 +63,7 @@
       pointer-events: none;
     }
 
-    .brand-logo {
+    .logo {
       font-family: 'Poppins', sans-serif;
       font-weight: 800;
       font-size: 1.5rem;
@@ -72,7 +73,7 @@
       z-index: 1;
     }
 
-    .brand-logo span { color: var(--accent); }
+    .logo span { color: var(--accent); }
 
     .left-body {
       position: relative;
@@ -239,7 +240,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .card-title {
+    .step-title {
       font-family: 'Poppins', sans-serif;
       font-weight: 700;
       font-size: 1.6rem;
@@ -247,7 +248,7 @@
       margin-bottom: 6px;
     }
 
-    .card-sub {
+    .step-sub {
       font-size: 0.88rem;
       color: var(--soft);
       margin-bottom: 28px;
@@ -437,33 +438,33 @@
 
 <!-- LEFT -->
 <div class="left">
-  <div class="brand-logo">Lens<span>Link</span></div>
+  <div class="logo"><span>LensLink <i class="fa-solid fa-camera-retro"></i></span></div>
 
   <div class="left-body">
-    <div class="left-tag">Campus Exclusive Platform</div>
+   <div class="left-tag">Campus Photography Platform</div>
     <h1 class="left-headline">
-      Where campus<br>talent meets <em>real work</em>
+     Find & hire<br><em>campus photographers</em>
     </h1>
     <p class="left-desc">
-      LensLink connects verified university students with clients looking for fresh, capable talent. Build your portfolio. Earn real money.
+     LensLink connects student photographers with people who need professional shoots, from events to personal projects. Build your portfolio or hire the right photographer easily.
     </p>
     <div class="features">
       <div class="feature">
         <div class="feature-dot">✦</div>
-        Campus-verified accounts only
+        Campus-verified photographers  
       </div>
       <div class="feature">
         <div class="feature-dot">◈</div>
-        Post jobs or find freelance work
+        Book for events, shoots & projects 
       </div>
       <div class="feature">
         <div class="feature-dot">⬡</div>
-        Secure payments & reviews
+        Secure hiring & communication  
       </div>
     </div>
   </div>
 
-  <div class="left-foot">© 2025 LensLink · MUET Exclusive</div>
+  <div class="left-foot">© 2026 LensLink · Campus Exclusive</div>
 </div>
 
 <!-- RIGHT -->
@@ -490,8 +491,8 @@
 
     <!-- ── STEP 1: Role + Email ── -->
     <div class="step active" id="step1">
-      <div class="card-title">Join LensLink</div>
-      <div class="card-sub">Create your photographer or booker account and enter your university email.</div>
+      <div class="step-title">Create account</div>
+      <div class="step-sub">Select your role and get started with LensLink.</div>
 
       <div class="form-msg" id="msg1"></div>
 
@@ -499,8 +500,8 @@
         <label class="field-label">I want to join as</label>
         <select class="field-input" id="role">
           <option value="" disabled selected>Select a role…</option>
-          <option value="freelancer">Freelancer — offer my skills</option>
-          <option value="client">Client — hire talent</option>
+          <option value="freelancer">Photographer</option>
+          <option value="client">Client</option>
         </select>
       </div>
 
@@ -520,7 +521,7 @@
     <!-- ── STEP 2: OTP ── -->
     <div class="step" id="step2">
       <div class="step-title">Check your inbox</div>
-      <div class="step-sub" id="otpSubtext">We'll send a code to your email.</div>
+      <div class="step-sub" id="otpSubtext">We’ll send a verification code to your university email.</div>
 
       <div class="form-msg" id="msg2"></div>
 
