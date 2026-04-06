@@ -147,7 +147,7 @@ function renderOrders() {
             
             <div class="info-row">
                 <div class="info-item">Client: <b>${order.client_name}</b></div>
-                <div class="info-item">Photographer: <b>${order.freelancer_name}</b></div>
+                <div class="info-item">Freelancer: <b>${order.freelancer_name}</b></div>
                 <div class="info-item">Amount: <b>PKR ${order.amount}</b></div>
             </div>
 

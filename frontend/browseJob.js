@@ -86,6 +86,7 @@ const formattedDate = job.deadline
 </div>
 
 <div class="job-title">${job.title}</div>
+
 <div class="job-info">Location: ${job.location}</div>
 <div class="job-info">Event Date: ${formattedDate}</div>
 <div class="job-info">Budget: Rs ${Number(job.stipend || 0).toLocaleString()}</div>
@@ -139,7 +140,7 @@ async function loadUserProfile() {
     const token = localStorage.getItem("access_token");
     if (!token) {
         // Fallback to local storage if API fails or not logged in
-        const userName = localStorage.getItem("userName") || "Photgrapher";
+        const userName = localStorage.getItem("userName") || "Freelancer";
         document.getElementById("navUserName").innerText = userName;
         return;
     }
@@ -149,7 +150,7 @@ async function loadUserProfile() {
         });
         if (response.ok) {
             const data = await response.json();
-            document.getElementById("navUserName").innerText = data.name || "Photographer";
+            document.getElementById("navUserName").innerText = data.name || "Freelancer";
         }
     } catch (err) {
         console.error("Error loading user profile:", err);

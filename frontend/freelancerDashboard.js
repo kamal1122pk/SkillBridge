@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(sessionStorage.getItem('profileSuccess'));
     sessionStorage.removeItem('profileSuccess');
 
-    const userName = localStorage.getItem("userName") || "Photographer";
+    const userName = localStorage.getItem("userName") || "Freelancer";
     const navUserName = document.getElementById("navUserName");
     const profileNav = document.getElementById("profileNav");
     const messagesNav = document.getElementById("messagesNav");
@@ -40,7 +40,7 @@ async function loadFreelancerProfile() {
         });
         const data = await response.json();
         if (response.ok) {
-            document.getElementById("navUserName").innerText = data.name || "Photographer";
+            document.getElementById("navUserName").innerText = data.name || "Freelancer";
             const unreadEl = document.getElementById("unreadMessages");
             if (unreadEl) unreadEl.innerText = data.unread_messages_count || 0;
 

@@ -356,7 +356,7 @@ section{
 
 }
 </style>
-</head>
+<link rel="stylesheet" href="light-theme.css"></head>
 
 <body>
 
@@ -415,7 +415,7 @@ section{
   <div class="testimonial-container">
     <div class="stars">⭐⭐⭐⭐⭐</div>
     <div class="testimonial" id="testimonialText">
-      “I found an amazing developer within 2 days. The process was smooth and secure.”
+      “I found an amazing Photographer within 2 days. The process was smooth and secure.”
       <div class="author">— Rehan Ali</div>
     </div>
   </div>
@@ -493,7 +493,7 @@ setInterval(()=>{
   const role = localStorage.getItem("userRole");
 
   if (token) {
-    const dashboardPage = role === "freelancer" ? "photographerDashboard.html" : "clientDashboard.html";
+    const dashboardPage = role === "freelancer" ? "freelancerDashboard.html" : "clientDashboard.html";
     authContainer.innerHTML = `
       <div style="display: flex; gap: 15px;">
         <button class="login-btn" onclick="window.location.href='${dashboardPage}'">Dashboard</button>

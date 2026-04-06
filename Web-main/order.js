@@ -98,7 +98,7 @@ function renderOrdersList() {
           <div style="margin-top:12px; border:1px solid #38bdf8; padding:10px; border-radius:8px;">
              <p style="font-size:13px; color:#38bdf8; margin-bottom:5px;">Client Receipt:</p>
              ${order.payment_proof ? `<img src="${order.payment_proof}" style="width:100px; height:60px; object-fit:cover; border-radius:4px; cursor:pointer;" onclick="window.open('${order.payment_proof}')">` : '<p>No Image</p>'}
-             <button onclick="confirmClientPayment('${order.order_id}')" style="width:100%; margin-top:8px; padding:8px; background:#22c55e; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600;">✅ Confirm Payment</button>
+             <button onclick="confirmClientPayment('${order.order_id}')" style="width:100%; margin-top:8px; padding:8px; background:#22c55e; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Confirm Payment</button>
           </div>
         ` : ''}
       ` : ''}

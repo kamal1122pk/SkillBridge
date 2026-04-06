@@ -29,7 +29,7 @@ async function confirmOrder() {
 
   const freelancer = JSON.parse(localStorage.getItem("activeChatUser") || "{}");
   if (!freelancer.email) {
-    return showToast("Start a chat with a photographer first.", "warning");
+    return showToast("Start a chat with a freelancer first.", "warning");
   }
 
   const btn = document.getElementById("confirmBtn");

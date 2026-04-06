@@ -127,7 +127,7 @@ async function removeFreelancer(freelancerEmail) {
     showToast("Removed successfully", "success");
     initDashboard();
   } else {
-    showToast("Failed to remove photographer.", "error");
+    showToast("Failed to remove freelancer.", "error");
   }
 }
 
@@ -137,7 +137,7 @@ function renderSavedFreelancers(saved) {
 
   container.innerHTML = "";
   if (saved.length === 0) {
-    container.innerHTML = "<p style='color:#94a3b8'>No photographer saved yet</p>";
+    container.innerHTML = "<p style='color:#94a3b8'>No freelancer saved yet</p>";
     return;
   }
 

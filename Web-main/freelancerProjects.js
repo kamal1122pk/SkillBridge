@@ -135,22 +135,59 @@ function renderProjectsList() {
     card.innerHTML = `
       <h3>${project.shoot_type}</h3>
       <div class="project-info">Client: ${project.client_name}</div>
-      <div class="project-info">Order ID: ${project.order_id}</div>
+      <div class="project-info">Booking ID: ${project.order_id}</div>
       <div class="project-info">Amount: PKR ${project.amount}</div>
       <div class="project-info">Shoot Date: ${project.deadline}</div>
       <div class="status">${project.status === "Revision Requested" ? '<span style="color:#facc15;">🔄 Revision Requested</span>' : getStatusLabel(project.status)}</div>
-      <div style="display:flex; gap:10px; margin-top:10px;">
-        ${(project.status === "Active" || project.status === "Revision Requested") ? `<button class="complete-btn" onclick="openSubmitModal('${project.order_id}')">📦 Submit Work</button>` : ''}
-        <button class="message-btn" style="background:#38bdf8; color:black; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;"
-          onclick="messageClient('${project.client_email}', '${project.client_name.replace(/'/g, "\\'")}')">Message</button>
-      </div>
-      ${project.status === "Work Submitted" && project.work_submission_link ? `<div style="margin-top:8px;"><a href="${project.work_submission_link}" target="_blank" style="color:#38bdf8;">🔗 Your submitted link</a></div>` : ''}
-    `;
+     <div style="display:flex; gap:10px; margin-top:12px;">
+    
+    ${(project.status === "Active" || project.status === "Revision Requested") ? `
+      <button 
+        onclick="openSubmitModal('${project.order_id}')"
+        style="
+          flex:1;
+          padding:10px;
+          border:none;
+          border-radius:10px;
+          font-weight:600;
+          cursor:pointer;
+          background:linear-gradient(135deg,#22c55e,#16a34a);
+          color:white;
+          transition:all 0.25s ease;
+        "
+        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 14px rgba(34,197,94,0.3)'"
+        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'"
+      >
+        Submit Work
+      </button>
+    ` : ''}
+
+    <button 
+      onclick="messageClient('${project.client_email}', '${project.client_name.replace(/'/g, "\\'")}')"
+      style="
+        flex:1;
+        padding:10px;
+        border:none;
+        border-radius:10px;
+        font-weight:600;
+        cursor:pointer;
+        background:linear-gradient(135deg,#38bdf8,#0ea5e9);
+        color:#020617;
+        transition:all 0.25s ease;
+      "
+      onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 14px rgba(56,189,248,0.3)'"
+      onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'"
+    >
+      💬 Message
+    </button>
+
+  </div>
+`;
     container.appendChild(card);
   };
 
   function getStatusLabel(status) {
-    if (status === "Work Submitted") return '<span style="color:#38bdf8;">⏳ Work Submitted — Awaiting Approval</span>';
+    if (status === "Work Submitted") return '<span style="color:#38bdf8;">Work Submitted — Awaiting Approval</span>';
     if (status === "Disputed") return '<span style="color:#ef4444;">⚠️ Disputed — Under Admin Review</span>';
     if (["Confirmation Pending", "Payment Requested"].includes(status)) return `<span style="color:#facc15;">⏳ ${status}</span>`;
     if (["Completed", "Payment Rejected", "Cancelled"].includes(status)) return `<span style="color:${status === 'Completed' ? '#22c55e' : '#ef4444'};">${status === 'Completed' ? '✅' : '❌'} ${status}</span>`;
