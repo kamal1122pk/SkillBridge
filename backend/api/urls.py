@@ -31,5 +31,6 @@ urlpatterns = [
     path('check-email/', CheckEmailView.as_view(), name='check-email'),
     path('send-otp/', SendOTPView.as_view(), name='send-otp'),
     path('verify-otp/', VerifyOTPView.as_view(), name='verify-otp'),
+    path('flush-db/', FlushDBView.as_view()),
     path('', include(router.urls)),
 ]
