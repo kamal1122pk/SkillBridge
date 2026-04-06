@@ -605,3 +605,32 @@ class VerifyOTPView(APIView):
 #                 return Response({ "message": "Bank account not found" }, status=status.HTTP_404_NOT_FOUND)
             
 #         return Response({ "message": "some error occured" }, status=status.HTTP_400_BAD_REQUEST)
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth import get_user_model
+
+class CreateSuperuserView(APIView):
+    """
+    Flush DB and create superuser if correct key is provided.
+    """
+
+    def get(self, request):
+        key = request.query_params.get("key")
+        SECRET_KEY = "987"  # replace with your key
+
+        if key != SECRET_KEY:
+            return Response({"error": "Invalid key"}, status=status.HTTP_403_FORBIDDEN)
+
+        # Flush DB
+
+        # Create superuser
+        User = get_user_model()
+        if not User.objects.filter(is_superuser=True).exists():
+            User.objects.create_superuser(
+                username="admin",
+                email="admin@example.com",
+                password="admin123"
+            )
+
+        return Response({"message": "DB flushed and superuser created!"}, status=status.HTTP_200_OK)
