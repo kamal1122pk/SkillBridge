@@ -605,4 +605,17 @@ class VerifyOTPView(APIView):
 #                 return Response({ "message": "Bank account not found" }, status=status.HTTP_404_NOT_FOUND)
             
 #         return Response({ "message": "some error occured" }, status=status.HTTP_400_BAD_REQUEST)
+from django.core.management import call_command
 
+class FlushDBView(APIView):
+    permission_classes = [AllowAny]  # since you're solo
+
+    def post(self, request):
+        key = request.data.get("key")
+
+        if key != "123":
+            return Response({"error": "Unauthorized"}, status=403)
+
+        call_command('flush', interactive=False)
+
+        return Response({"message": "Database flushed successfully"})
