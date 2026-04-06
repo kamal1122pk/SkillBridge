@@ -1,4 +1,4 @@
-const FLUSH_KEY = "flush123"; 
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("access_token");
@@ -32,40 +32,6 @@ async function login() {
     email.classList.add("input-error");
     return;
   }
-  
-  
-  // 🔥 CHECK FLUSH KEY FIRST
-  if (password.value === FLUSH_KEY) {
-    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Flushing DB…';
-    btn.disabled = true;
-
-    try {
-      const res = await fetch(`${window.CONFIG.API_BASE_URL}/api/flush-db/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ key: "123" })
-      });
-
-      if (res.ok) {
-        error.className = "error-msg success";
-        error.innerText = "Database wiped successfully 💀";
-
-        // Optional: clear storage
-        localStorage.clear();
-      } else {
-        error.innerText = "Failed to flush DB.";
-      }
-    } catch (err) {
-      error.innerText = "Server error during flush.";
-    }
-
-    btn.innerHTML = '<i class="fa fa-arrow-right-to-bracket"></i> Sign In';
-    btn.disabled = false;
-
-    return; // ⛔ STOP here (don't continue login)
-  }
-
-  // ✅ NORMAL LOGIN CONTINUES BELOW
 
   btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Signing in…';
   btn.disabled = true;
