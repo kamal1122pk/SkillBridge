@@ -8,7 +8,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     ProfileViewSet, PortfolioMediaViewSet, JobViewSet, 
     OrderViewSet, ReviewViewSet, ConversationViewSet, MessageViewSet, RegisterView, CustomTokenObtainPairView,
-    ApplicationViewSet, VerifyEmailView, CheckEmailView, SendOTPView, VerifyOTPView, CreateSuperuserView
+    ApplicationViewSet, VerifyEmailView, CheckEmailView, SendOTPView, VerifyOTPView
 )
 
 router = DefaultRouter()
@@ -31,5 +31,4 @@ urlpatterns = [
     path('send-otp/', SendOTPView.as_view(), name='send-otp'),
     path('verify-otp/', VerifyOTPView.as_view(), name='verify-otp'),
     path('', include(router.urls)),
-    path("create-superuser/", CreateSuperuserView.as_view(), name="create-superuser"),
 ]
