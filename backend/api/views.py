@@ -45,6 +45,10 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get', 'patch'])
     def me(self, request):
+        profile, created = Profile.objects.get_or_create(
+        user=request.user,
+        defaults={'name': request.user.username, 'role': 'client'}  # default values
+    )
         if request.method == 'GET':
             serializer = self.get_serializer(request.user.profile)
             return Response(serializer.data)
