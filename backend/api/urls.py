@@ -8,7 +8,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     ProfileViewSet, PortfolioMediaViewSet, JobViewSet, 
     OrderViewSet, ReviewViewSet, ConversationViewSet, MessageViewSet, RegisterView, CustomTokenObtainPairView,
-    ApplicationViewSet, VerifyEmailView, CheckEmailView, SendOTPView, VerifyOTPView
+    ApplicationViewSet, VerifyEmailView, CheckEmailView, SendOTPView, VerifyOTPView, FlushDBView
 
 )
 
